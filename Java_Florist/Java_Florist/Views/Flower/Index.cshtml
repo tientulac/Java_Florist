@@ -30,28 +30,31 @@
                                     <table id="table_id" class="display">
                                         <thead>
                                             <tr>
-                                                <th>Column 1</th>
-                                                <th>Column 2</th>
-                                                <th>Column 2</th>
+                                                <th>Id</th>
+                                                <th>Name</th>
+                                                <th>Image</th>
+                                                <th>Color</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Row 1 Data 1</td>
-                                                <td>Row 1 Data 2</td>
-                                                <td>Row 1 Data 2</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Row 2 Data 1</td>
-                                                <td>Row 2 Data 2</td>
-                                                <td>
-                                                    <button class="btn btn-outline-info btn-sm" style="margin-right: 5px;">
-                                                        <i class="fas fa-edit"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-danger btn-sm">
-                                                        <i class="fas fa-trash-alt"></i>
-                                                    </button>
-                                            </tr>
+                                            @foreach (var f in @ViewBag.ListFlower)
+                                            {
+                                                <tr>
+                                                    <td>@f.FlowerId</td>
+                                                    <td>@f.FlowerName</td>
+                                                    <td><img src="@f.Image" alt="Alternate Text" width="50" height="50" /></td>
+                                                    <td>@f.Color</td>
+                                                    <td>
+                                                        <button class="btn btn-outline-info btn-sm" style="margin-right: 5px;">
+                                                            <i class="fas fa-edit"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal(@f.FlowerId)" data-toggle="modal" data-target="#deleteModal">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>
@@ -76,18 +79,134 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                <div class="col-md-12">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="inputEmail4">Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Name of flower">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="inputEmail4">Color</label>
+                                <input type="text" class="form-control" id="color" placeholder="Color">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="inputEmail4">Image</label>
+                                <input type="text" class="form-control" id="image" placeholder="Image">
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="submit()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete this record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h2 style="text-align:center">Are you sure want to delete this record ??</h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="deleteItem()">Confirm</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+    var id_record = 0;
+
+    // Example POST method implementation:
+    async function postData(url = '', data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
+    async function deleteData(url = '', param = 0) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'GET', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
     $(document).ready(function () {
         $('#table_id').DataTable();
     });
+
+    submit = () => {
+        postData('/Flower/Save',
+            {
+                FlowerName: 'Test',
+                Color: 'red',
+                Image: '123'
+            })
+            .then((data) => {
+                if (data.success) {
+                    console.log(data); // JSON data parsed by `data.json()` call
+                    toastr.success('Successfully !');
+                    $('.modal').modal('hide');
+                }
+                else {
+                    toastr.warning('Failed !');
+                    $('.modal').modal('hide');
+                }
+        });
+    }
+
+    openDeleteModal = (id) => {
+        id_record = id;
+    }
+
+    deleteItem = () => {
+        deleteData('/Flower/Delete?FLowerId=' + id_record)
+            .then((data) => {
+                if (data.success) {
+                    toastr.success('Successfully !');
+                    $('.modal').modal('hide');
+                }
+                else {
+                    toastr.warning('Failed !');
+                    $('.modal').modal('hide');
+                }
+            });
+    }
+
 </script>
