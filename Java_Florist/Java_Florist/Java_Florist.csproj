@@ -687,13 +687,13 @@
     <Content Include="Views\Shared\AdminLayout\_Layout.cshtml" />
     <Content Include="Views\DashBoard\Index.cshtml" />
     <Content Include="Views\Flower\Index.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Bouqueti\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Bouqueti\" />
     <Folder Include="Views\Cart\" />
     <Folder Include="Views\Customer\" />
-    <Folder Include="Views\Message\" />
     <Folder Include="Views\Orders\" />
     <Folder Include="Views\Shared\UserLayout\" />
   </ItemGroup>

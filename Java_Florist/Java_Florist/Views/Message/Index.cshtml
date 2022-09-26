@@ -7,13 +7,14 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
 
+
 <div class="content">
     <div class="panel-header bg-primary-gradient">
         <div class="page-inner py-5">
             <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                 <div>
                     <h2 class="text-white pb-2 fw-bold">Flower</h2>
-                    <h5 class="text-white op-7 mb-2">Home/Admin/Flower</h5>
+                    <h5 class="text-white op-7 mb-2">Home/Admin/Message</h5>
                 </div>
                 <div class="ml-md-auto py-2 py-md-0">
                     <a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
@@ -30,29 +31,25 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <table id="table_id" class="display">
+                                    <table id="table_message" class="display">
                                         <thead>
                                             <tr>
                                                 <th>Id</th>
-                                                <th>Name</th>
-                                                <th>Image</th>
-                                                <th>Color</th>
+                                                <th>Message</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var f in @ViewBag.ListFlower)
+                                            @foreach (var m in @ViewBag.ListMessage)
                                             {
                                                 <tr>
-                                                    <td>@f.FlowerId</td>
-                                                    <td>@f.FlowerName</td>
-                                                    <td><img src="@f.Image" alt="Alternate Text" width="50" height="50" /></td>
-                                                    <td>@f.Color</td>
+                                                    <td>@m.OccasionId</td>
+                                                    <td>@m.Message1</td>
                                                     <td>
-                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#addModal" style="margin-right: 5px;" onclick="openUpdateModal(@f.FlowerId)">
+                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#addModal" style="margin-right: 5px;" onclick="openUpdateModal(@m.OccasionId)">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal(@f.FlowerId)" data-toggle="modal" data-target="#deleteModal">
+                                                        <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal(@m.OccasionId)" data-toggle="modal" data-target="#deleteModal">
                                                             <i class="fas fa-trash-alt"></i>
                                                         </button>
                                                     </td>
@@ -76,7 +73,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Modal title</h5>
+                <h5 class="modal-title" id="addModalLabel">Insert</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -86,16 +83,10 @@
                     <form>
                         <div class="form-row">
                             <div class="form-group col-md-12">
-                                <label for="inputEmail4">Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Name of flower">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="inputEmail4">Color</label>
-                                <input type="text" class="form-control" id="color" placeholder="Color">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="inputEmail4">Image</label>
-                                <input type="text" class="form-control" id="image" placeholder="Image (input link)">
+                                <div class="form-group">
+                                    <label for="exampleFormControlTextarea1">Message</label>
+                                    <textarea class="form-control" id="message" rows="3"></textarea>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -136,9 +127,7 @@
 
     openAddModal = () => {
         id_record = 0;
-        $('#name').val('');
-        $('#color').val('');
-        $('#image').val('');
+        $('#message').val('');
     };
 
     // Example POST method implementation:
@@ -161,20 +150,17 @@
     }
 
     $(document).ready(function () {
-        $('#table_id').DataTable();
+        $('#table_message').DataTable();
     });
 
     submit = () => {
         var req = {
-            FlowerId: id_record,
-            FlowerName: $('#name').val(),
-            Color: $('#color').val(),
-            Image: $('#image').val(),
+            OccasionId: id_record,
+            Message1: $('#message').val()
         }
-        postData('/Flower/Save', req)
+        postData('/Message/Save', req)
             .then((data) => {
                 if (data.success) {
-                    console.log(data); // JSON data parsed by `data.json()` call
                     toastr.success('Successfully !');
                     $('.modal').modal('hide');
                     window.location.reload();
@@ -193,14 +179,11 @@
     openUpdateModal = (id) => {
         id_record = id;
         $.ajax({
-            url: '/Flower/FindById?FlowerId=' + id,
+            url: '/Message/FindById?OccasionId=' + id,
             type: 'GET',
             success: function (result) {
                 if (result.success) {
-                    console.log(result.data);
-                    $('#name').val(result.data.FlowerName);
-                    $('#color').val(result.data.Color);
-                    $('#image').val(result.data.Image);
+                    $('#message').val(result.data.Message1);
                 }
                 else {
                     toastr.warning('Failed !');
@@ -212,7 +195,7 @@
 
     deleteItem = () => {
         $.ajax({
-            url: '/Flower/Delete?FlowerId=' + id_record,
+            url: '/Message/Delete?OccasionId=' + id_record,
             type: 'DELETE',
             success: function (result) {
                 if (result.success) {

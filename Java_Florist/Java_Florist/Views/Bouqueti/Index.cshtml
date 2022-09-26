@@ -13,7 +13,7 @@
             <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                 <div>
                     <h2 class="text-white pb-2 fw-bold">Flower</h2>
-                    <h5 class="text-white op-7 mb-2">Home/Admin/Flower</h5>
+                    <h5 class="text-white op-7 mb-2">Home/Admin/Bouqueti</h5>
                 </div>
                 <div class="ml-md-auto py-2 py-md-0">
                     <a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
@@ -30,29 +30,45 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <table id="table_id" class="display">
+                                    <table id="table_bouqueti" class="display">
                                         <thead>
                                             <tr>
                                                 <th>Id</th>
                                                 <th>Name</th>
                                                 <th>Image</th>
-                                                <th>Color</th>
+                                                <th>Price</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var f in @ViewBag.ListFlower)
+                                            @foreach (var f in @ViewBag.ListBouqueti)
                                             {
                                                 <tr>
-                                                    <td>@f.FlowerId</td>
-                                                    <td>@f.FlowerName</td>
+                                                    <td>@f.BouquetiId</td>
+                                                    <td>@f.BouquetiName</td>
                                                     <td><img src="@f.Image" alt="Alternate Text" width="50" height="50" /></td>
-                                                    <td>@f.Color</td>
+                                                    <td>@f.Price $</td>
+                                                    @if (f.Status == 1)
+                                                    {
+                                                        <td style="color: lawngreen">Selling</td>
+
+                                                    }
+                                                    @if (f.Status == 2)
+                                                    {
+                                                        <td style="color: yellow">Added to Cart</td>
+
+                                                    }
+                                                    @if (f.Status == 2)
+                                                    {
+                                                        <td style="color: red">Delivering</td>
+
+                                                    }
                                                     <td>
-                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#addModal" style="margin-right: 5px;" onclick="openUpdateModal(@f.FlowerId)">
+                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#addModal" style="margin-right: 5px;" onclick="openUpdateModal(@f.BouquetiId)">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal(@f.FlowerId)" data-toggle="modal" data-target="#deleteModal">
+                                                        <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal(@f.BouquetiId)" data-toggle="modal" data-target="#deleteModal">
                                                             <i class="fas fa-trash-alt"></i>
                                                         </button>
                                                     </td>
@@ -87,11 +103,11 @@
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="inputEmail4">Name</label>
-                                <input type="text" class="form-control" id="name" placeholder="Name of flower">
+                                <input type="text" class="form-control" id="name" placeholder="Name">
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="inputEmail4">Color</label>
-                                <input type="text" class="form-control" id="color" placeholder="Color">
+                                <label for="inputEmail4">Price</label>
+                                <input type="text" class="form-control" id="price" placeholder="Price">
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="inputEmail4">Image</label>
@@ -133,12 +149,14 @@
 <script>
     var id_record = 0;
     var dataUpdate = {};
+    var status = 1;
 
     openAddModal = () => {
         id_record = 0;
         $('#name').val('');
-        $('#color').val('');
+        $('#price').val('');
         $('#image').val('');
+        status = 1;
     };
 
     // Example POST method implementation:
@@ -161,20 +179,20 @@
     }
 
     $(document).ready(function () {
-        $('#table_id').DataTable();
+        $('#table_bouqueti').DataTable();
     });
 
     submit = () => {
         var req = {
-            FlowerId: id_record,
-            FlowerName: $('#name').val(),
-            Color: $('#color').val(),
+            BouquetiId: id_record,
+            BouquetiName: $('#name').val(),
+            Price: $('#price').val(),
             Image: $('#image').val(),
+            Status: status
         }
-        postData('/Flower/Save', req)
+        postData('/Bouqueti/Save', req)
             .then((data) => {
                 if (data.success) {
-                    console.log(data); // JSON data parsed by `data.json()` call
                     toastr.success('Successfully !');
                     $('.modal').modal('hide');
                     window.location.reload();
@@ -193,14 +211,14 @@
     openUpdateModal = (id) => {
         id_record = id;
         $.ajax({
-            url: '/Flower/FindById?FlowerId=' + id,
+            url: '/Bouqueti/FindById?BouquetiId=' + id,
             type: 'GET',
             success: function (result) {
                 if (result.success) {
-                    console.log(result.data);
-                    $('#name').val(result.data.FlowerName);
-                    $('#color').val(result.data.Color);
+                    $('#name').val(result.data.BouquetiName);
+                    $('#price').val(result.data.Price);
                     $('#image').val(result.data.Image);
+                    status = result.data.Status;
                 }
                 else {
                     toastr.warning('Failed !');
@@ -212,7 +230,7 @@
 
     deleteItem = () => {
         $.ajax({
-            url: '/Flower/Delete?FlowerId=' + id_record,
+            url: '/Bouqueti/Delete?BouquetiId=' + id_record,
             type: 'DELETE',
             success: function (result) {
                 if (result.success) {

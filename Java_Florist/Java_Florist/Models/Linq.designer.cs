@@ -42,6 +42,9 @@ namespace Java_Florist.Models
     partial void InsertCart(Cart instance);
     partial void UpdateCart(Cart instance);
     partial void DeleteCart(Cart instance);
+    partial void InsertCartItem(CartItem instance);
+    partial void UpdateCartItem(CartItem instance);
+    partial void DeleteCartItem(CartItem instance);
     partial void InsertCriteriaBouqueti(CriteriaBouqueti instance);
     partial void UpdateCriteriaBouqueti(CriteriaBouqueti instance);
     partial void DeleteCriteriaBouqueti(CriteriaBouqueti instance);
@@ -57,16 +60,22 @@ namespace Java_Florist.Models
     partial void InsertFlowerBouqueti(FlowerBouqueti instance);
     partial void UpdateFlowerBouqueti(FlowerBouqueti instance);
     partial void DeleteFlowerBouqueti(FlowerBouqueti instance);
+    partial void InserthtFunction(htFunction instance);
+    partial void UpdatehtFunction(htFunction instance);
+    partial void DeletehtFunction(htFunction instance);
+    partial void InserthtUserFunction(htUserFunction instance);
+    partial void UpdatehtUserFunction(htUserFunction instance);
+    partial void DeletehtUserFunction(htUserFunction instance);
+    partial void InserthtUser(htUser instance);
+    partial void UpdatehtUser(htUser instance);
+    partial void DeletehtUser(htUser instance);
     partial void InsertMessage(Message instance);
     partial void UpdateMessage(Message instance);
     partial void DeleteMessage(Message instance);
-    partial void InsertCartItem(CartItem instance);
-    partial void UpdateCartItem(CartItem instance);
-    partial void DeleteCartItem(CartItem instance);
     #endregion
 		
 		public LinqDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["Java_FloristConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["Java_FloristConnectionString1"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -127,6 +136,14 @@ namespace Java_Florist.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<CartItem> CartItems
+		{
+			get
+			{
+				return this.GetTable<CartItem>();
+			}
+		}
+		
 		public System.Data.Linq.Table<CriteriaBouqueti> CriteriaBouquetis
 		{
 			get
@@ -167,19 +184,35 @@ namespace Java_Florist.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<htFunction> htFunctions
+		{
+			get
+			{
+				return this.GetTable<htFunction>();
+			}
+		}
+		
+		public System.Data.Linq.Table<htUserFunction> htUserFunctions
+		{
+			get
+			{
+				return this.GetTable<htUserFunction>();
+			}
+		}
+		
+		public System.Data.Linq.Table<htUser> htUsers
+		{
+			get
+			{
+				return this.GetTable<htUser>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Message> Messages
 		{
 			get
 			{
 				return this.GetTable<Message>();
-			}
-		}
-		
-		public System.Data.Linq.Table<CartItem> CartItems
-		{
-			get
-			{
-				return this.GetTable<CartItem>();
 			}
 		}
 	}
@@ -743,6 +776,116 @@ namespace Java_Florist.Models
 					this._UserId = value;
 					this.SendPropertyChanged("UserId");
 					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CartItem")]
+	public partial class CartItem : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CartItemId;
+		
+		private System.Nullable<int> _BouquetiId;
+		
+		private System.Nullable<int> _CartId;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCartItemIdChanging(int value);
+    partial void OnCartItemIdChanged();
+    partial void OnBouquetiIdChanging(System.Nullable<int> value);
+    partial void OnBouquetiIdChanged();
+    partial void OnCartIdChanging(System.Nullable<int> value);
+    partial void OnCartIdChanged();
+    #endregion
+		
+		public CartItem()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CartItemId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int CartItemId
+		{
+			get
+			{
+				return this._CartItemId;
+			}
+			set
+			{
+				if ((this._CartItemId != value))
+				{
+					this.OnCartItemIdChanging(value);
+					this.SendPropertyChanging();
+					this._CartItemId = value;
+					this.SendPropertyChanged("CartItemId");
+					this.OnCartItemIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BouquetiId", DbType="Int")]
+		public System.Nullable<int> BouquetiId
+		{
+			get
+			{
+				return this._BouquetiId;
+			}
+			set
+			{
+				if ((this._BouquetiId != value))
+				{
+					this.OnBouquetiIdChanging(value);
+					this.SendPropertyChanging();
+					this._BouquetiId = value;
+					this.SendPropertyChanged("BouquetiId");
+					this.OnBouquetiIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CartId", DbType="Int")]
+		public System.Nullable<int> CartId
+		{
+			get
+			{
+				return this._CartId;
+			}
+			set
+			{
+				if ((this._CartId != value))
+				{
+					this.OnCartIdChanging(value);
+					this.SendPropertyChanging();
+					this._CartId = value;
+					this.SendPropertyChanged("CartId");
+					this.OnCartIdChanged();
 				}
 			}
 		}
@@ -1462,6 +1605,456 @@ namespace Java_Florist.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.htFunctions")]
+	public partial class htFunction : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _FuntionId;
+		
+		private string _FunctionCode;
+		
+		private string _FunctionName;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnFuntionIdChanging(int value);
+    partial void OnFuntionIdChanged();
+    partial void OnFunctionCodeChanging(string value);
+    partial void OnFunctionCodeChanged();
+    partial void OnFunctionNameChanging(string value);
+    partial void OnFunctionNameChanged();
+    #endregion
+		
+		public htFunction()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FuntionId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int FuntionId
+		{
+			get
+			{
+				return this._FuntionId;
+			}
+			set
+			{
+				if ((this._FuntionId != value))
+				{
+					this.OnFuntionIdChanging(value);
+					this.SendPropertyChanging();
+					this._FuntionId = value;
+					this.SendPropertyChanged("FuntionId");
+					this.OnFuntionIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FunctionCode", DbType="NVarChar(50)")]
+		public string FunctionCode
+		{
+			get
+			{
+				return this._FunctionCode;
+			}
+			set
+			{
+				if ((this._FunctionCode != value))
+				{
+					this.OnFunctionCodeChanging(value);
+					this.SendPropertyChanging();
+					this._FunctionCode = value;
+					this.SendPropertyChanged("FunctionCode");
+					this.OnFunctionCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FunctionName", DbType="NVarChar(200)")]
+		public string FunctionName
+		{
+			get
+			{
+				return this._FunctionName;
+			}
+			set
+			{
+				if ((this._FunctionName != value))
+				{
+					this.OnFunctionNameChanging(value);
+					this.SendPropertyChanging();
+					this._FunctionName = value;
+					this.SendPropertyChanged("FunctionName");
+					this.OnFunctionNameChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.htUserFunction")]
+	public partial class htUserFunction : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _UserFunctionId;
+		
+		private System.Nullable<int> _UserId;
+		
+		private System.Nullable<int> _FunctionId;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUserFunctionIdChanging(int value);
+    partial void OnUserFunctionIdChanged();
+    partial void OnUserIdChanging(System.Nullable<int> value);
+    partial void OnUserIdChanged();
+    partial void OnFunctionIdChanging(System.Nullable<int> value);
+    partial void OnFunctionIdChanged();
+    #endregion
+		
+		public htUserFunction()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserFunctionId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int UserFunctionId
+		{
+			get
+			{
+				return this._UserFunctionId;
+			}
+			set
+			{
+				if ((this._UserFunctionId != value))
+				{
+					this.OnUserFunctionIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserFunctionId = value;
+					this.SendPropertyChanged("UserFunctionId");
+					this.OnUserFunctionIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", DbType="Int")]
+		public System.Nullable<int> UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FunctionId", DbType="Int")]
+		public System.Nullable<int> FunctionId
+		{
+			get
+			{
+				return this._FunctionId;
+			}
+			set
+			{
+				if ((this._FunctionId != value))
+				{
+					this.OnFunctionIdChanging(value);
+					this.SendPropertyChanging();
+					this._FunctionId = value;
+					this.SendPropertyChanged("FunctionId");
+					this.OnFunctionIdChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.htUsers")]
+	public partial class htUser : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _UserId;
+		
+		private string _UserName;
+		
+		private string _PassWord;
+		
+		private string _FullName;
+		
+		private System.Nullable<bool> _Admin;
+		
+		private System.Nullable<bool> _Active;
+		
+		private string _Email;
+		
+		private System.Nullable<int> _UserCategory;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnUserNameChanging(string value);
+    partial void OnUserNameChanged();
+    partial void OnPassWordChanging(string value);
+    partial void OnPassWordChanged();
+    partial void OnFullNameChanging(string value);
+    partial void OnFullNameChanged();
+    partial void OnAdminChanging(System.Nullable<bool> value);
+    partial void OnAdminChanged();
+    partial void OnActiveChanging(System.Nullable<bool> value);
+    partial void OnActiveChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnUserCategoryChanging(System.Nullable<int> value);
+    partial void OnUserCategoryChanged();
+    #endregion
+		
+		public htUser()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserName", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string UserName
+		{
+			get
+			{
+				return this._UserName;
+			}
+			set
+			{
+				if ((this._UserName != value))
+				{
+					this.OnUserNameChanging(value);
+					this.SendPropertyChanging();
+					this._UserName = value;
+					this.SendPropertyChanged("UserName");
+					this.OnUserNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PassWord", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string PassWord
+		{
+			get
+			{
+				return this._PassWord;
+			}
+			set
+			{
+				if ((this._PassWord != value))
+				{
+					this.OnPassWordChanging(value);
+					this.SendPropertyChanging();
+					this._PassWord = value;
+					this.SendPropertyChanged("PassWord");
+					this.OnPassWordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FullName", DbType="NVarChar(50)")]
+		public string FullName
+		{
+			get
+			{
+				return this._FullName;
+			}
+			set
+			{
+				if ((this._FullName != value))
+				{
+					this.OnFullNameChanging(value);
+					this.SendPropertyChanging();
+					this._FullName = value;
+					this.SendPropertyChanged("FullName");
+					this.OnFullNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Admin", DbType="Bit")]
+		public System.Nullable<bool> Admin
+		{
+			get
+			{
+				return this._Admin;
+			}
+			set
+			{
+				if ((this._Admin != value))
+				{
+					this.OnAdminChanging(value);
+					this.SendPropertyChanging();
+					this._Admin = value;
+					this.SendPropertyChanged("Admin");
+					this.OnAdminChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Active", DbType="Bit")]
+		public System.Nullable<bool> Active
+		{
+			get
+			{
+				return this._Active;
+			}
+			set
+			{
+				if ((this._Active != value))
+				{
+					this.OnActiveChanging(value);
+					this.SendPropertyChanging();
+					this._Active = value;
+					this.SendPropertyChanged("Active");
+					this.OnActiveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(200)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserCategory", DbType="Int")]
+		public System.Nullable<int> UserCategory
+		{
+			get
+			{
+				return this._UserCategory;
+			}
+			set
+			{
+				if ((this._UserCategory != value))
+				{
+					this.OnUserCategoryChanging(value);
+					this.SendPropertyChanging();
+					this._UserCategory = value;
+					this.SendPropertyChanged("UserCategory");
+					this.OnUserCategoryChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Message")]
 	public partial class Message : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1523,116 +2116,6 @@ namespace Java_Florist.Models
 					this._Message1 = value;
 					this.SendPropertyChanged("Message1");
 					this.OnMessage1Changed();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CartItem")]
-	public partial class CartItem : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _CartItemId;
-		
-		private System.Nullable<int> _BouquetiId;
-		
-		private System.Nullable<int> _CartId;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnCartItemIdChanging(int value);
-    partial void OnCartItemIdChanged();
-    partial void OnBouquetiIdChanging(System.Nullable<int> value);
-    partial void OnBouquetiIdChanged();
-    partial void OnCartIdChanging(System.Nullable<int> value);
-    partial void OnCartIdChanged();
-    #endregion
-		
-		public CartItem()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CartItemId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int CartItemId
-		{
-			get
-			{
-				return this._CartItemId;
-			}
-			set
-			{
-				if ((this._CartItemId != value))
-				{
-					this.OnCartItemIdChanging(value);
-					this.SendPropertyChanging();
-					this._CartItemId = value;
-					this.SendPropertyChanged("CartItemId");
-					this.OnCartItemIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BouquetiId", DbType="Int")]
-		public System.Nullable<int> BouquetiId
-		{
-			get
-			{
-				return this._BouquetiId;
-			}
-			set
-			{
-				if ((this._BouquetiId != value))
-				{
-					this.OnBouquetiIdChanging(value);
-					this.SendPropertyChanging();
-					this._BouquetiId = value;
-					this.SendPropertyChanged("BouquetiId");
-					this.OnBouquetiIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CartId", DbType="Int")]
-		public System.Nullable<int> CartId
-		{
-			get
-			{
-				return this._CartId;
-			}
-			set
-			{
-				if ((this._CartId != value))
-				{
-					this.OnCartIdChanging(value);
-					this.SendPropertyChanging();
-					this._CartId = value;
-					this.SendPropertyChanged("CartId");
-					this.OnCartIdChanged();
 				}
 			}
 		}

@@ -24,7 +24,10 @@ namespace Java_Florist.Controllers
                 db.SubmitChanges();
                 return Json(new { success = true, data = _bouqueti }, JsonRequestBehavior.AllowGet);
             }
-
+            else
+            {
+                req.Status = 1;
+            }
             db.Bouquetis.InsertOnSubmit(req);
             db.SubmitChanges();
             return Json(new { success = true, data = req }, JsonRequestBehavior.AllowGet);
@@ -35,6 +38,12 @@ namespace Java_Florist.Controllers
             var _bouqueti = db.Bouquetis.Where(M => M.BouquetiId == BouquetiId).FirstOrDefault();
             db.Bouquetis.DeleteOnSubmit(_bouqueti);
             db.SubmitChanges();
+            return Json(new { success = true, data = _bouqueti }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult FindById(int BouquetiId)
+        {
+            var _bouqueti = db.Bouquetis.Where(M => M.BouquetiId == BouquetiId).FirstOrDefault();
             return Json(new { success = true, data = _bouqueti }, JsonRequestBehavior.AllowGet);
         }
 

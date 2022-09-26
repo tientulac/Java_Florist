@@ -35,6 +35,12 @@ namespace Java_Florist.Controllers
             return Json(new { success = true, data = _message }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult FindById(int OccasionId)
+        {
+            var _message = db.Messages.Where(M => M.OccasionId == OccasionId).FirstOrDefault();
+            return Json(new { success = true, data = _message }, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Message
         public ActionResult Index()
         {
