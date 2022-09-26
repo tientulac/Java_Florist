@@ -1,0 +1,93 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout/_Layout.cshtml";
+}
+
+<div class="content">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-5">
+            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                <div>
+                    <h2 class="text-white pb-2 fw-bold">Flower</h2>
+                    <h5 class="text-white op-7 mb-2">Home/Admin/Flower</h5>
+                </div>
+                <div class="ml-md-auto py-2 py-md-0">
+                    <a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
+                    <a href="#" class="btn btn-secondary btn-round" data-toggle="modal" data-target="#addModal" onclick="openAddModal()">Add new</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner mt--5">
+        <div class="row mt--2">
+            <div class="col-md-12">
+                <div class="card full-height">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive table-hover table-sales">
+                                    <table id="table_id" class="display">
+                                        <thead>
+                                            <tr>
+                                                <th>Column 1</th>
+                                                <th>Column 2</th>
+                                                <th>Column 2</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Row 1 Data 1</td>
+                                                <td>Row 1 Data 2</td>
+                                                <td>Row 1 Data 2</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Row 2 Data 1</td>
+                                                <td>Row 2 Data 2</td>
+                                                <td>
+                                                    <button class="btn btn-outline-info btn-sm" style="margin-right: 5px;">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger btn-sm">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#table_id').DataTable();
+    });
+</script>
