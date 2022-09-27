@@ -1,4 +1,5 @@
 ﻿using Java_Florist.Models;
+using Java_Florist.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,20 @@ namespace Java_Florist.Controllers
         // GET: Customer
         public ActionResult Index()
         {
-            var listCustomer = db.Customers.ToList();
+            var listCustomer = (from a in db.Customers
+                                select new CustomerDTO {
+                                    CustomerId = a.CustomerId,
+                                    F_Name = a.F_Name,
+                                    L_Name = a.L_Name,
+                                    Dob = a.Dob,
+                                    Gender = a.Gender,
+                                    Phone = a.Phone,
+                                    Address = a.Address,
+                                    UserId = a.UserId,
+                                    UserName = db.htUsers.Where(x => x.UserId == a.UserId).Any() ? db.htUsers.Where(x => x.UserId == a.UserId).FirstOrDefault().UserName : "___",
+                                    GenderName = a.Gender == true ? "Female" : "Male",
+                                    DobString = a.Dob.ToString().Substring(0, 10)
+                                }).ToList();
             ViewBag.ListCustomer = listCustomer;
             return View();
         }
