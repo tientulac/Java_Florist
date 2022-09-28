@@ -24,7 +24,6 @@ namespace Java_Florist.Controllers
                 _customer.Gender = req.Gender;
                 _customer.Phone = req.Phone;
                 _customer.Address = req.Address;
-                _customer.UserId = req.UserId;
                 db.SubmitChanges();
                 return Json(new { success = true, data = _customer }, JsonRequestBehavior.AllowGet);
             }
@@ -32,6 +31,12 @@ namespace Java_Florist.Controllers
             db.Customers.InsertOnSubmit(req);
             db.SubmitChanges();
             return Json(new { success = true, data = req }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult FindById(int CustomerId)
+        {
+            var _customer = db.Customers.Where(M => M.CustomerId == CustomerId).FirstOrDefault();
+            return Json(new { success = true, data = _customer }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Delete(int CustomerId)

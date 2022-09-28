@@ -1,4 +1,5 @@
 ﻿using Java_Florist.Models;
+using Java_Florist.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,21 @@ namespace Java_Florist.Controllers
         // GET: Orders
         public ActionResult Index()
         {
+            var listOrder =(from a in db.Orders
+                                select new OrderDTO
+                                {
+                                    OrderId = a.OrderId,
+                                    CustomerId = a.CustomerId,
+                                    CustomerName = (db.Customers.Where(x => x.CustomerId == a.CustomerId).FirstOrDefault().F_Name + " " + db.Customers.Where(x => x.CustomerId == a.CustomerId).FirstOrDefault().L_Name) ?? "___",
+                                    StatusName = (a.Status == 1 ? "Delivering") ? (a.Status == 2 ? "Canceled") : "Done",
+                                    Address_From = a.Address_From,
+                                    Address_To = a.Address_To,
+                                    TypePayment = a.TypePayment,
+                                    TypePaymentName = a.TypePayment == 1 ? "PayCard" : "Money",
+                                    TimeDelivery = a.TimeDelivery,
+                                    ToTal = 1000000
+                                }).ToList();
+
             return View();
         }
     }

@@ -12,8 +12,8 @@
         <div class="page-inner py-5">
             <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
                 <div>
-                    <h2 class="text-white pb-2 fw-bold">Customer</h2>
-                    <h5 class="text-white op-7 mb-2">Home/Admin/Customer</h5>
+                    <h2 class="text-white pb-2 fw-bold">Account Manager</h2>
+                    <h5 class="text-white op-7 mb-2">Home/Admin/Account</h5>
                 </div>
                 <div class="ml-md-auto py-2 py-md-0">
                     <a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
@@ -29,37 +29,45 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="table-responsive table-hover table-sales">
-                                    <table id="table_customer" class="display">
+                                    <table id="table_user" class="display">
                                         <thead>
                                             <tr>
                                                 <th>Id</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Date Of Birth</th>
-                                                <th>Gender</th>
-                                                <th>Phone</th>
-                                                <th>Address</th>
-                                                <th>Account</th>
+                                                <th>UserName</th>
+                                                <th>Email</th>
+                                                <th>Status</th>
+                                                <th style="text-align: center">Admin</th>
+                                                <th>Role</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var f in @ViewBag.ListCustomer)
+                                            @foreach (var f in @ViewBag.ListAccount)
                                             {
                                                 <tr>
-                                                    <td>@f.CustomerId</td>
-                                                    <td>@f.F_Name</td>
-                                                    <td>@f.L_Name</td>
-                                                    <td>@f.DobString</td>
-                                                    <td>@f.GenderName</td>
-                                                    <td>@f.Phone</td>
-                                                    <td>@f.Address</td>
+                                                    <td>@f.UserId</td>
                                                     <td>@f.UserName</td>
+                                                    <td>@f.Email</td>
+                                                    <td>@f.StatusName</td>
+                                                    @if (f.Admin == true)
+                                                    {
+                                                        <td style="text-align: center">
+                                                            <i style="color: green" class="fa fa-check" aria-hidden="true"></i>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td style="text-align: center">
+                                                            <i style="color: red" class="fa fa-times" aria-hidden="true"></i>
+
+                                                        </td>
+                                                    }
+                                                    <td>@f.FunctionName</td>
                                                     <td>
-                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#addModal" style="margin-right: 5px;" onclick="openUpdateModal(@f.CustomerId)">
+                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#addModal" style="margin-right: 5px;" onclick="openUpdateModal(@f.UserId)">
                                                             <i class="fas fa-edit"></i>
                                                         </button>
-                                                        <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal(@f.CustomerId)" data-toggle="modal" data-target="#deleteModal">
+                                                        <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal(@f.UserId)" data-toggle="modal" data-target="#deleteModal">
                                                             <i class="fas fa-trash-alt"></i>
                                                         </button>
                                                     </td>
@@ -71,7 +79,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -93,32 +100,16 @@
                     <form>
                         <div class="form-row">
                             <div class="form-group col-md-12">
-                                <label for="inputEmail4">F_Name</label>
-                                <input type="text" class="form-control" id="f_name" placeholder="First Name">
+                                <label for="inputEmail4">Email</label>
+                                <input type="text" class="form-control" id="email" placeholder="Email">
                             </div>
-                            <div class="form-group col-md-12">
-                                <label for="inputEmail4">L_Name</label>
-                                <input type="text" class="form-control" id="l_name" placeholder="Last Name">
+                            <div class="col-md-6">
+                                <input type="checkbox" name="name" value="" id="admin" />
+                                <label for="admin">Admin</label>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputEmail4">Date of birth</label>
-                                <input type="date" class="form-control" id="dob">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="inputEmail4">Phone</label>
-                                <input type="tel" class="form-control" id="phone">
-                            </div>
-                            <div class="form-group col-md-12">
-                                <label for="inputEmail4">Address</label>
-                                <input type="text" class="form-control" id="address" placeholder="Address">
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="male" value="option1" onclick="checkGender(false)">
-                                <label class="form-check-label" for="inlineRadio1">Male</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="female" value="option2"  onclick="checkGender(true)">
-                                <label class="form-check-label" for="inlineRadio2">Female</label>
+                            <div class="col-md-6">
+                                <input type="checkbox" name="active" value="" id="active" />
+                                <label for="active">Active</label>
                             </div>
                         </div>
                     </form>
@@ -156,11 +147,6 @@
 <script>
     var id_record = 0;
     var dataUpdate = {};
-    var gender = null;
-
-    checkGender = (_gender) => {
-        gender = _gender;
-    }
 
     // Example POST method implementation:
     async function postData(url = '', data = {}) {
@@ -182,20 +168,17 @@
     }
 
     $(document).ready(function () {
-        $('#table_customer').DataTable();
+        $('#table_user').DataTable();
     });
 
     submit = () => {
         var req = {
-            CustomerId: id_record,
-            F_Name: $('#f_name').val(),
-            L_Name: $('#l_name').val(),
-            Dob: $('#dob').val(),
-            Gender: gender,
-            Phone: $('#phone').val(),
-            Address: $('#address').val(),
+            UserId: id_record,
+            Email: $('#email').val(),
+            Admin: $('#admin').is(':checked'),
+            Active: $('#active').is(':checked'),
         }
-        postData('/Customer/Save', req)
+        postData('/Account/Save', req)
             .then((data) => {
                 if (data.success) {
                     toastr.success('Successfully !');
@@ -216,26 +199,13 @@
     openUpdateModal = (id) => {
         id_record = id;
         $.ajax({
-            url: '/Customer/FindById?CustomerId=' + id,
+            url: '/Account/FindById?UserId=' + id,
             type: 'GET',
             success: function (result) {
                 if (result.success) {
-                    var numDate = parseInt(result.data.Dob.toString().replaceAll('/', '').replaceAll('Date(', '').replaceAll(')', ''));
-                    var dob = new Date(numDate);
-                    dob.setDate(dob.getDate() + 1);
-                    if (result.data.Gender) {
-                        $('#female').prop('checked', true);
-                    }
-                    else {
-                        $('#male').prop('checked', true);
-                    }
-                    $('#f_name').val(result.data.F_Name);
-                    $('#l_name').val(result.data.L_Name);
-                    $('#dob').val(dob.toISOString().substr(0, 10));
-                    $('#gender').val(result.data.Gender);
-                    $('#phone').val(result.data.Phone);
-                    $('#address').val(result.data.Address);
-                    status = result.data.Status;
+                    $('#email').val(result.data.Email);
+                    $('#admin').prop('checked', result.data.Admin);
+                    $('#active').prop('checked', result.data.Active);
                 }
                 else {
                     toastr.warning('Failed !');
@@ -247,7 +217,7 @@
 
     deleteItem = () => {
         $.ajax({
-            url: '/Customer/Delete?CustomerId=' + id_record,
+            url: '/Account/Delete?UserId=' + id_record,
             type: 'DELETE',
             success: function (result) {
                 if (result.success) {
