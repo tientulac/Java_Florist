@@ -1,4 +1,5 @@
 ﻿using Java_Florist.Models;
+using Java_Florist.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,15 @@ namespace Java_Florist.Controllers
         // GET: Cart
         public ActionResult Index()
         {
-            var listCart = db.Carts.ToList();
+            var listCart = (from a in db.Carts
+                            select new CartDTO { 
+                                CartId = a.CartId,
+                                Status = a.Status,
+                                StatusName = a.Status == 1 ? "New" : "Deleted",
+                                UserId = a.UserId,
+                                UserName = db.htUsers.Where(x => x.UserId == a.UserId).FirstOrDefault().UserName ?? "__",
+                                TotalItem = db.CartItems.Where(x => x.CartId == a.CartId).Count()
+                            });
             ViewBag.ListCart = listCart;
             return View();
         }

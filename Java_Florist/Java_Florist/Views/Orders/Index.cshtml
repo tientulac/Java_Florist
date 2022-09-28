@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/AdminLayout/_Layout.cshtml";
+}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+
+<div class="content">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-5">
+            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                <div>
+                    <h2 class="text-white pb-2 fw-bold">Order</h2>
+                    <h5 class="text-white op-7 mb-2">Home/Admin/Order</h5>
+                </div>
+                <div class="ml-md-auto py-2 py-md-0">
+                    <a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner mt--5">
+        <div class="row mt--2">
+            <div class="col-md-12">
+                <div class="card full-height">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive table-hover table-sales">
+                                    <table id="table_order" class="display">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>CustomerName</th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                                <th>Type payment</th>
+                                                <th>Total</th>
+                                                <th>Time delivery</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var f in @ViewBag.ListOrder)
+                                            {
+                                                <tr>
+                                                    <td>@f.OrderId</td>
+                                                    <td>@f.CustomerName</td>
+                                                    <td>@f.Address_From</td>
+                                                    <td>@f.Address_To</td>
+                                                    <td>@f.TypePaymentName</td>
+                                                    <td>@f.ToTal $</td>
+                                                    <td>@f.TimeDelivery</td>
+                                                    @if (f.Status == 1)
+                                                    {
+                                                        <td style="color: lawngreen">@f.StatusName</td>
+
+                                                    }
+                                                    @if (f.Status == 2)
+                                                    {
+                                                        <td style="color: yellow">@f.StatusName</td>
+
+                                                    }
+                                                    @if (f.Status == 2)
+                                                    {
+                                                        <td style="color: red">@f.StatusName</td>
+
+                                                    }
+                                                    <td>
+                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#detailModal" style="margin-right: 5px;" onclick="openDetailModal(@f.OrderId)">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                                        </button>
+                                                        <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal(@f.OrderId)" data-toggle="modal" data-target="#deleteModal">
+                                                            <i class="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Delete this record</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h2 style="text-align:center">Are you sure want to delete this record ??</h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="deleteItem()">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var id_record = 0;
+
+    $(document).ready(function () {
+        $('#table_order').DataTable();
+    });
+
+    openDeleteModal = (id) => {
+        id_record = id;
+    }
+
+    deleteItem = () => {
+        $.ajax({
+            url: '/Orders/Delete?OrderId=' + id_record,
+            type: 'DELETE',
+            success: function (result) {
+                if (result.success) {
+                    toastr.success('Successfully !');
+                    $('.modal').modal('hide');
+                    window.location.reload();
+                }
+                else {
+                    toastr.warning('Failed !');
+                    $('.modal').modal('hide');
+                }
+            }
+        });
+    }
+
+</script>
