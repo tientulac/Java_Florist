@@ -100,6 +100,30 @@
     </div>
 </div>
 
+
+<table id="table_cartItem" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Extn.</th>
+            <th>Start date</th>
+            <th>Salary</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Office</th>
+            <th>Extn.</th>
+            <th>Start date</th>
+            <th>Salary</th>
+        </tr>
+    </tfoot>
+</table>
+
 <script>
     var id_record = 0;
 
@@ -136,6 +160,9 @@
             success: function (result) {
                 if (result) {
                     console.log(result);
+                    $('#table_cartItem').DataTable({
+                        ajax: result.data,
+                    });
                 }
                 else {
                     toastr.warning('Failed !');
