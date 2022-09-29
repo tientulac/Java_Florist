@@ -565,6 +565,47 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\greeno\css\animate.min.css" />
+    <Content Include="Content\greeno\css\bootstrap.min.css" />
+    <Content Include="Content\greeno\css\jquery-ui.css" />
+    <Content Include="Content\greeno\css\jquery.mCustomScrollbar.min.css" />
+    <Content Include="Content\greeno\css\meanmenu.css" />
+    <Content Include="Content\greeno\css\nice-select.css" />
+    <Content Include="Content\greeno\css\normalize.css" />
+    <Content Include="Content\greeno\css\owl.carousel.min.css" />
+    <Content Include="Content\greeno\css\responsive.css" />
+    <Content Include="Content\greeno\css\slick.css" />
+    <Content Include="Content\greeno\css\style.css" />
+    <Content Include="Content\greeno\icon\facebook.png" />
+    <Content Include="Content\greeno\icon\instagram.png" />
+    <Content Include="Content\greeno\icon\linkedin.png" />
+    <Content Include="Content\greeno\icon\Twitter.png" />
+    <Content Include="Content\greeno\images\1.jpg" />
+    <Content Include="Content\greeno\images\2.jpg" />
+    <Content Include="Content\greeno\images\3.jpg" />
+    <Content Include="Content\greeno\images\4.jpg" />
+    <Content Include="Content\greeno\images\5.jpg" />
+    <Content Include="Content\greeno\images\6.jpg" />
+    <Content Include="Content\greeno\images\about-bg.jpg" />
+    <Content Include="Content\greeno\images\banner.jpg" />
+    <Content Include="Content\greeno\images\contactimg.jpg" />
+    <Content Include="Content\greeno\images\gyufyufyu.png" />
+    <Content Include="Content\greeno\images\loading.gif" />
+    <Content Include="Content\greeno\images\logo.png" />
+    <Content Include="Content\greeno\images\map.jpg" />
+    <Content Include="Content\greeno\images\plant1.jpg" />
+    <Content Include="Content\greeno\images\plant2.jpg" />
+    <Content Include="Content\greeno\images\plant3.jpg" />
+    <Content Include="Content\greeno\images\search_icon.png" />
+    <Content Include="Content\greeno\index.html" />
+    <Content Include="Content\greeno\js\bootstrap.bundle.min.js" />
+    <Content Include="Content\greeno\js\custom.js" />
+    <Content Include="Content\greeno\js\jquery-3.0.0.min.js" />
+    <Content Include="Content\greeno\js\jquery.mCustomScrollbar.concat.min.js" />
+    <Content Include="Content\greeno\js\jquery.min.js" />
+    <Content Include="Content\greeno\js\jquery.validate.js" />
+    <Content Include="Content\greeno\js\plugin.js" />
+    <Content Include="Content\greeno\js\popper.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -700,11 +741,12 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Cart\Index.cshtml" />
+    <Content Include="Views\Shared\UserLayout\_layout.cshtml" />
+    <Content Include="Views\Home\UserLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\CartItem\" />
-    <Folder Include="Views\Shared\UserLayout\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

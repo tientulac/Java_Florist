@@ -78,7 +78,6 @@ D:\TienNN\GitPublish\Java_Florist\Java_Florist\Java_Florist\Java_Florist\bin\Sys
 D:\TienNN\GitPublish\Java_Florist\Java_Florist\Java_Florist\Java_Florist\bin\System.Web.WebPages.Razor.xml
 D:\TienNN\GitPublish\Java_Florist\Java_Florist\Java_Florist\Java_Florist\bin\Antlr3.Runtime.pdb
 D:\TienNN\GitPublish\Java_Florist\Java_Florist\Java_Florist\Java_Florist\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\TienNN\GitPublish\Java_Florist\Java_Florist\Java_Florist\Java_Florist\obj\Debug\Java_Florist.csproj.AssemblyReference.cache
 D:\TienNN\GitPublish\Java_Florist\Java_Florist\Java_Florist\Java_Florist\obj\Debug\Java_Florist.csproj.CoreCompileInputs.cache
 D:\TienNN\GitPublish\Java_Florist\Java_Florist\Java_Florist\Java_Florist\obj\Debug\Java_Florist.csproj.CopyComplete
 D:\TienNN\GitPublish\Java_Florist\Java_Florist\Java_Florist\Java_Florist\obj\Debug\Java_Florist.dll
@@ -168,3 +167,4 @@ D:\DoAnWeb\Java_Florist\Java_Florist\Java_Florist\Java_Florist\obj\Debug\Java_Fl
 D:\DoAnWeb\Java_Florist\Java_Florist\Java_Florist\Java_Florist\obj\Debug\Java_Florist.csproj.CopyComplete
 D:\DoAnWeb\Java_Florist\Java_Florist\Java_Florist\Java_Florist\obj\Debug\Java_Florist.dll
 D:\DoAnWeb\Java_Florist\Java_Florist\Java_Florist\Java_Florist\obj\Debug\Java_Florist.pdb
+D:\TienNN\GitPublish\Java_Florist\Java_Florist\Java_Florist\Java_Florist\obj\Debug\Java_Florist.csproj.AssemblyReference.cache

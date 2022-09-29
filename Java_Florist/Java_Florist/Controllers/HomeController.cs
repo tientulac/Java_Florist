@@ -14,5 +14,10 @@ namespace Java_Florist.Controllers
 
             return View();
         }
+
+        public ActionResult UserLayout()
+        {
+            return View();
+        }
     }
 }

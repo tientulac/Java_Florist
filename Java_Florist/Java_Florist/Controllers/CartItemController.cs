@@ -23,8 +23,9 @@ namespace Java_Florist.Controllers
                                 BouquetiId = a.BouquetiId.GetValueOrDefault(),
                                 BouquetiName = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().BouquetiName ?? "__",
                                 Price = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().Price ?? 0,
-                                Image = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().Image ?? "__",
-                                Status = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().Status ?? 0
+                                Image = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().Image ?? "",
+                                Status = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().Status ?? 0,
+                                Message = db.Messages.Where(x => x.OccasionId == (db.BouquetiMessages.Where(m => m.BouquetiId == a.BouquetiId).FirstOrDefault().OccasionId) && (x.Message1.Length > 0)).FirstOrDefault().Message1 ?? "__"
                             });
             return Json(new { success = true, data = listCartItem }, JsonRequestBehavior.AllowGet);
         }
