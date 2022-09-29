@@ -30,9 +30,6 @@ namespace Java_Florist.Models
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertBouqueti(Bouqueti instance);
-    partial void UpdateBouqueti(Bouqueti instance);
-    partial void DeleteBouqueti(Bouqueti instance);
     partial void InsertOrder(Order instance);
     partial void UpdateOrder(Order instance);
     partial void DeleteOrder(Order instance);
@@ -72,10 +69,13 @@ namespace Java_Florist.Models
     partial void InsertMessage(Message instance);
     partial void UpdateMessage(Message instance);
     partial void DeleteMessage(Message instance);
+    partial void InsertBouqueti(Bouqueti instance);
+    partial void UpdateBouqueti(Bouqueti instance);
+    partial void DeleteBouqueti(Bouqueti instance);
     #endregion
 		
 		public LinqDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["Java_FloristConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["Java_FloristConnectionString1"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -102,14 +102,6 @@ namespace Java_Florist.Models
 				base(connection, mappingSource)
 		{
 			OnCreated();
-		}
-		
-		public System.Data.Linq.Table<Bouqueti> Bouquetis
-		{
-			get
-			{
-				return this.GetTable<Bouqueti>();
-			}
 		}
 		
 		public System.Data.Linq.Table<Order> Orders
@@ -215,162 +207,12 @@ namespace Java_Florist.Models
 				return this.GetTable<Message>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Bouqueti")]
-	public partial class Bouqueti : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _BouquetiId;
-		
-		private string _BouquetiName;
-		
-		private System.Nullable<decimal> _Price;
-		
-		private string _Image;
-		
-		private System.Nullable<int> _Status;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnBouquetiIdChanging(int value);
-    partial void OnBouquetiIdChanged();
-    partial void OnBouquetiNameChanging(string value);
-    partial void OnBouquetiNameChanged();
-    partial void OnPriceChanging(System.Nullable<decimal> value);
-    partial void OnPriceChanged();
-    partial void OnImageChanging(string value);
-    partial void OnImageChanged();
-    partial void OnStatusChanging(System.Nullable<int> value);
-    partial void OnStatusChanged();
-    #endregion
-		
-		public Bouqueti()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BouquetiId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int BouquetiId
+		public System.Data.Linq.Table<Bouqueti> Bouquetis
 		{
 			get
 			{
-				return this._BouquetiId;
-			}
-			set
-			{
-				if ((this._BouquetiId != value))
-				{
-					this.OnBouquetiIdChanging(value);
-					this.SendPropertyChanging();
-					this._BouquetiId = value;
-					this.SendPropertyChanged("BouquetiId");
-					this.OnBouquetiIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BouquetiName", DbType="NVarChar(255)")]
-		public string BouquetiName
-		{
-			get
-			{
-				return this._BouquetiName;
-			}
-			set
-			{
-				if ((this._BouquetiName != value))
-				{
-					this.OnBouquetiNameChanging(value);
-					this.SendPropertyChanging();
-					this._BouquetiName = value;
-					this.SendPropertyChanged("BouquetiName");
-					this.OnBouquetiNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Price", DbType="Decimal(18,0)")]
-		public System.Nullable<decimal> Price
-		{
-			get
-			{
-				return this._Price;
-			}
-			set
-			{
-				if ((this._Price != value))
-				{
-					this.OnPriceChanging(value);
-					this.SendPropertyChanging();
-					this._Price = value;
-					this.SendPropertyChanged("Price");
-					this.OnPriceChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image", DbType="NVarChar(MAX)")]
-		public string Image
-		{
-			get
-			{
-				return this._Image;
-			}
-			set
-			{
-				if ((this._Image != value))
-				{
-					this.OnImageChanging(value);
-					this.SendPropertyChanging();
-					this._Image = value;
-					this.SendPropertyChanged("Image");
-					this.OnImageChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int")]
-		public System.Nullable<int> Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+				return this.GetTable<Bouqueti>();
 			}
 		}
 	}
@@ -2116,6 +1958,188 @@ namespace Java_Florist.Models
 					this._Message1 = value;
 					this.SendPropertyChanged("Message1");
 					this.OnMessage1Changed();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Bouqueti")]
+	public partial class Bouqueti : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _BouquetiId;
+		
+		private string _BouquetiName;
+		
+		private System.Nullable<decimal> _Price;
+		
+		private string _Image;
+		
+		private System.Nullable<int> _Status;
+		
+		private string _Desc;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnBouquetiIdChanging(int value);
+    partial void OnBouquetiIdChanged();
+    partial void OnBouquetiNameChanging(string value);
+    partial void OnBouquetiNameChanged();
+    partial void OnPriceChanging(System.Nullable<decimal> value);
+    partial void OnPriceChanged();
+    partial void OnImageChanging(string value);
+    partial void OnImageChanged();
+    partial void OnStatusChanging(System.Nullable<int> value);
+    partial void OnStatusChanged();
+    partial void OnDescChanging(string value);
+    partial void OnDescChanged();
+    #endregion
+		
+		public Bouqueti()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BouquetiId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int BouquetiId
+		{
+			get
+			{
+				return this._BouquetiId;
+			}
+			set
+			{
+				if ((this._BouquetiId != value))
+				{
+					this.OnBouquetiIdChanging(value);
+					this.SendPropertyChanging();
+					this._BouquetiId = value;
+					this.SendPropertyChanged("BouquetiId");
+					this.OnBouquetiIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BouquetiName", DbType="NVarChar(255)")]
+		public string BouquetiName
+		{
+			get
+			{
+				return this._BouquetiName;
+			}
+			set
+			{
+				if ((this._BouquetiName != value))
+				{
+					this.OnBouquetiNameChanging(value);
+					this.SendPropertyChanging();
+					this._BouquetiName = value;
+					this.SendPropertyChanged("BouquetiName");
+					this.OnBouquetiNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Price", DbType="Decimal(18,0)")]
+		public System.Nullable<decimal> Price
+		{
+			get
+			{
+				return this._Price;
+			}
+			set
+			{
+				if ((this._Price != value))
+				{
+					this.OnPriceChanging(value);
+					this.SendPropertyChanging();
+					this._Price = value;
+					this.SendPropertyChanged("Price");
+					this.OnPriceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Image", DbType="NVarChar(MAX)")]
+		public string Image
+		{
+			get
+			{
+				return this._Image;
+			}
+			set
+			{
+				if ((this._Image != value))
+				{
+					this.OnImageChanging(value);
+					this.SendPropertyChanging();
+					this._Image = value;
+					this.SendPropertyChanged("Image");
+					this.OnImageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int")]
+		public System.Nullable<int> Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Desc]", Storage="_Desc", DbType="NChar(4000)")]
+		public string Desc
+		{
+			get
+			{
+				return this._Desc;
+			}
+			set
+			{
+				if ((this._Desc != value))
+				{
+					this.OnDescChanging(value);
+					this.SendPropertyChanging();
+					this._Desc = value;
+					this.SendPropertyChanged("Desc");
+					this.OnDescChanged();
 				}
 			}
 		}

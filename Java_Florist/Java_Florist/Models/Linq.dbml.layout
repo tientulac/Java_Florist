@@ -2,12 +2,6 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 12, 12.375" name="Linq">
   <DataContextMoniker Name="/LinqDataContext" />
   <nestedChildShapes>
-    <classShape Id="66c49680-faf7-49e0-888c-f625a1b18227" absoluteBounds="0.75, 0.75, 2, 1.7708968098958331">
-      <DataClassMoniker Name="/LinqDataContext/Bouqueti" />
-      <nestedChildShapes>
-        <elementListCompartment Id="44b1b910-44cb-4f1a-ae2c-8800a4811fe8" absoluteBounds="0.765, 1.21, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="d80d08b2-aa55-4bc9-9c9a-d30397c22bc1" absoluteBounds="3.75, 0.75, 2, 2.1554996744791666">
       <DataClassMoniker Name="/LinqDataContext/Order" />
       <nestedChildShapes>
@@ -84,6 +78,12 @@
       <DataClassMoniker Name="/LinqDataContext/Message" />
       <nestedChildShapes>
         <elementListCompartment Id="6a4f5f2c-89c4-4f0d-8563-832a4aacaa5b" absoluteBounds="0.765, 11.21, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="18d1845d-ebb1-4f11-9800-7f9b58fa5ffa" absoluteBounds="0.625, 0.75, 2, 1.9631982421875">
+      <DataClassMoniker Name="/LinqDataContext/Bouqueti" />
+      <nestedChildShapes>
+        <elementListCompartment Id="7c8d55cd-7a1d-4aae-9633-5e63a733c385" absoluteBounds="0.63999999999999968, 1.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

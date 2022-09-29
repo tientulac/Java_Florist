@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Java_Florist.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,8 @@ namespace Java_Florist.Controllers
 {
     public class HomeController : Controller
     {
+        private LinqDataContext db = new LinqDataContext();
+
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
@@ -17,6 +20,8 @@ namespace Java_Florist.Controllers
 
         public ActionResult UserLayout()
         {
+            var listBouquetis = db.Bouquetis.ToList();
+            ViewBag.ListBouqueti = listBouquetis;
             return View();
         }
     }
