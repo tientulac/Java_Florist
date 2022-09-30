@@ -39,9 +39,6 @@ namespace Java_Florist.Models
     partial void InsertCart(Cart instance);
     partial void UpdateCart(Cart instance);
     partial void DeleteCart(Cart instance);
-    partial void InsertCartItem(CartItem instance);
-    partial void UpdateCartItem(CartItem instance);
-    partial void DeleteCartItem(CartItem instance);
     partial void InsertCriteriaBouqueti(CriteriaBouqueti instance);
     partial void UpdateCriteriaBouqueti(CriteriaBouqueti instance);
     partial void DeleteCriteriaBouqueti(CriteriaBouqueti instance);
@@ -72,10 +69,13 @@ namespace Java_Florist.Models
     partial void InsertBouqueti(Bouqueti instance);
     partial void UpdateBouqueti(Bouqueti instance);
     partial void DeleteBouqueti(Bouqueti instance);
+    partial void InsertCartItem(CartItem instance);
+    partial void UpdateCartItem(CartItem instance);
+    partial void DeleteCartItem(CartItem instance);
     #endregion
 		
 		public LinqDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["Java_FloristConnectionString1"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["Java_FloristConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -125,14 +125,6 @@ namespace Java_Florist.Models
 			get
 			{
 				return this.GetTable<Cart>();
-			}
-		}
-		
-		public System.Data.Linq.Table<CartItem> CartItems
-		{
-			get
-			{
-				return this.GetTable<CartItem>();
 			}
 		}
 		
@@ -213,6 +205,14 @@ namespace Java_Florist.Models
 			get
 			{
 				return this.GetTable<Bouqueti>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CartItem> CartItems
+		{
+			get
+			{
+				return this.GetTable<CartItem>();
 			}
 		}
 	}
@@ -618,116 +618,6 @@ namespace Java_Florist.Models
 					this._UserId = value;
 					this.SendPropertyChanged("UserId");
 					this.OnUserIdChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CartItem")]
-	public partial class CartItem : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _CartItemId;
-		
-		private System.Nullable<int> _BouquetiId;
-		
-		private System.Nullable<int> _CartId;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnCartItemIdChanging(int value);
-    partial void OnCartItemIdChanged();
-    partial void OnBouquetiIdChanging(System.Nullable<int> value);
-    partial void OnBouquetiIdChanged();
-    partial void OnCartIdChanging(System.Nullable<int> value);
-    partial void OnCartIdChanged();
-    #endregion
-		
-		public CartItem()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CartItemId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int CartItemId
-		{
-			get
-			{
-				return this._CartItemId;
-			}
-			set
-			{
-				if ((this._CartItemId != value))
-				{
-					this.OnCartItemIdChanging(value);
-					this.SendPropertyChanging();
-					this._CartItemId = value;
-					this.SendPropertyChanged("CartItemId");
-					this.OnCartItemIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BouquetiId", DbType="Int")]
-		public System.Nullable<int> BouquetiId
-		{
-			get
-			{
-				return this._BouquetiId;
-			}
-			set
-			{
-				if ((this._BouquetiId != value))
-				{
-					this.OnBouquetiIdChanging(value);
-					this.SendPropertyChanging();
-					this._BouquetiId = value;
-					this.SendPropertyChanged("BouquetiId");
-					this.OnBouquetiIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CartId", DbType="Int")]
-		public System.Nullable<int> CartId
-		{
-			get
-			{
-				return this._CartId;
-			}
-			set
-			{
-				if ((this._CartId != value))
-				{
-					this.OnCartIdChanging(value);
-					this.SendPropertyChanging();
-					this._CartId = value;
-					this.SendPropertyChanged("CartId");
-					this.OnCartIdChanged();
 				}
 			}
 		}
@@ -2140,6 +2030,140 @@ namespace Java_Florist.Models
 					this._Desc = value;
 					this.SendPropertyChanged("Desc");
 					this.OnDescChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CartItem")]
+	public partial class CartItem : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CartItemId;
+		
+		private System.Nullable<int> _BouquetiId;
+		
+		private System.Nullable<int> _CartId;
+		
+		private System.Nullable<int> _TotalCount;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCartItemIdChanging(int value);
+    partial void OnCartItemIdChanged();
+    partial void OnBouquetiIdChanging(System.Nullable<int> value);
+    partial void OnBouquetiIdChanged();
+    partial void OnCartIdChanging(System.Nullable<int> value);
+    partial void OnCartIdChanged();
+    partial void OnTotalCountChanging(System.Nullable<int> value);
+    partial void OnTotalCountChanged();
+    #endregion
+		
+		public CartItem()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CartItemId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int CartItemId
+		{
+			get
+			{
+				return this._CartItemId;
+			}
+			set
+			{
+				if ((this._CartItemId != value))
+				{
+					this.OnCartItemIdChanging(value);
+					this.SendPropertyChanging();
+					this._CartItemId = value;
+					this.SendPropertyChanged("CartItemId");
+					this.OnCartItemIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BouquetiId", DbType="Int")]
+		public System.Nullable<int> BouquetiId
+		{
+			get
+			{
+				return this._BouquetiId;
+			}
+			set
+			{
+				if ((this._BouquetiId != value))
+				{
+					this.OnBouquetiIdChanging(value);
+					this.SendPropertyChanging();
+					this._BouquetiId = value;
+					this.SendPropertyChanged("BouquetiId");
+					this.OnBouquetiIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CartId", DbType="Int")]
+		public System.Nullable<int> CartId
+		{
+			get
+			{
+				return this._CartId;
+			}
+			set
+			{
+				if ((this._CartId != value))
+				{
+					this.OnCartIdChanging(value);
+					this.SendPropertyChanging();
+					this._CartId = value;
+					this.SendPropertyChanged("CartId");
+					this.OnCartIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TotalCount", DbType="Int")]
+		public System.Nullable<int> TotalCount
+		{
+			get
+			{
+				return this._TotalCount;
+			}
+			set
+			{
+				if ((this._TotalCount != value))
+				{
+					this.OnTotalCountChanging(value);
+					this.SendPropertyChanging();
+					this._TotalCount = value;
+					this.SendPropertyChanged("TotalCount");
+					this.OnTotalCountChanged();
 				}
 			}
 		}

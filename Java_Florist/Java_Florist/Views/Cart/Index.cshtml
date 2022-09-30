@@ -58,7 +58,7 @@
 
                                                     }
                                                     <td>
-                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#detailModal" style="margin-right: 5px;" onclick="openDetailModal(@f.CartId)">
+                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#detailModal" style="margin-right: 5px;" onclick="openDetailModal(@f.UserId)">
                                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                                         </button>
                                                         <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal(@f.CartId)" data-toggle="modal" data-target="#deleteModal">
@@ -158,7 +158,7 @@
 
     openDetailModal = (cart_id) => {
         $.ajax({
-            url: '/CartItem/GetCartItem?CartId=' + cart_id,
+            url: '/CartItem/GetCartItem?userId=' + cart_id,
             type: 'GET',
             success: function (result) {
                 var str = '';

@@ -24,6 +24,12 @@ namespace Java_Florist.Controllers
         {
             var _cart = db.Carts.Where(M => M.CartId == CartId).FirstOrDefault();
             db.Carts.DeleteOnSubmit(_cart);
+            var _cartItem = db.CartItems.Where(x => x.CartId == CartId);
+            _cartItem.ToList().ForEach(c => {
+                db.CartItems.DeleteOnSubmit(c);
+                db.SubmitChanges();
+            });
+
             db.SubmitChanges();
             return Json(new { success = true, data = _cart }, JsonRequestBehavior.AllowGet);
         }

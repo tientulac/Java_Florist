@@ -11,5 +11,7 @@ namespace Java_Florist.Models.DTO
         public int CartItemId { get; set; }
         public double ToTal { get; set; }
         public string Message { get; set; }
+        public int UserId { get; set; }
+        public int TotalCount { get; set; }
     }
 }
