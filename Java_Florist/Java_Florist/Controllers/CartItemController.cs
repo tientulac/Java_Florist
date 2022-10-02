@@ -15,7 +15,7 @@ namespace Java_Florist.Controllers
         // GET: CartItem
         public ActionResult GetCartItem(int userId)
         {
-            var cartByUser = db.Carts.Where(x => x.UserId == userId);
+            var cartByUser = db.Carts.Where(x => x.UserId == userId && x.Status == 1);
             if (cartByUser.Any())
             {
                 var listCartItem = (from a in db.CartItems.Where(x => x.CartId == cartByUser.FirstOrDefault().CartId)
@@ -31,7 +31,32 @@ namespace Java_Florist.Controllers
                                         Status = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().Status ?? 0,
                                         TotalCount = a.TotalCount ?? 0,
                                         Desc = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().Desc ?? "__",
-                                        Message = db.Messages.Where(x => x.OccasionId == (db.BouquetiMessages.Where(m => m.BouquetiId == a.BouquetiId).FirstOrDefault().OccasionId) && (x.Message1.Length > 0)).FirstOrDefault().Message1 ?? "__"
+                                        Message = db.CartItems.Where(x => x.CartItemId == a.CartItemId).FirstOrDefault().Message ?? "__"
+                                    });
+                return Json(new { success = true, data = listCartItem }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = true, data = "" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetCartItemAdmin(int cartId, int userId, int status)
+        {
+            var cartByUser = db.Carts.Where(x => x.UserId == userId && x.CartId == cartId);
+            if (cartByUser.Any())
+            {
+                var listCartItem = (from a in db.CartItems.Where(x => x.CartId == cartId)
+                                    select new CartItemDTO
+                                    {
+                                        UserId = cartByUser.FirstOrDefault().UserId.GetValueOrDefault(),
+                                        CartItemId = a.CartItemId,
+                                        CartId = a.CartId.GetValueOrDefault(),
+                                        BouquetiId = a.BouquetiId.GetValueOrDefault(),
+                                        BouquetiName = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().BouquetiName ?? "__",
+                                        Price = (db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().Price * a.TotalCount) ?? 0,
+                                        Image = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().Image ?? "",
+                                        Status = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().Status ?? 0,
+                                        TotalCount = a.TotalCount ?? 0,
+                                        Desc = db.Bouquetis.Where(x => x.BouquetiId == a.BouquetiId).FirstOrDefault().Desc ?? "__",
+                                        Message = a.Message ?? "__"
                                     });
                 return Json(new { success = true, data = listCartItem }, JsonRequestBehavior.AllowGet);
             }
@@ -41,7 +66,7 @@ namespace Java_Florist.Controllers
         public int GetCountCart(int userId)
         {
             var countCart = 0;
-            var cart = db.Carts.Where(x => x.UserId == userId);
+            var cart = db.Carts.Where(x => x.UserId == userId && x.Status == 1);
             if (cart.Any())
             {
                 countCart = db.CartItems.Where(x => x.CartId == cart.FirstOrDefault().CartId).Sum(c => c.TotalCount) ?? 0;
@@ -51,7 +76,7 @@ namespace Java_Florist.Controllers
 
         public ActionResult InsertCartItem(int userId, int bouquetiId)
         {
-            var cart = db.Carts.Where(x => x.UserId == userId);
+            var cart = db.Carts.Where(x => x.UserId == userId && x.Status == 1);
             if (cart.Any())
             {
                 var cartId = cart.FirstOrDefault().CartId;
@@ -77,10 +102,11 @@ namespace Java_Florist.Controllers
             else
             {
                 var cart_insert = new Cart();
+                var cartItem = new CartItem();
                 cart_insert.Status = 1;
                 cart_insert.UserId = userId;
                 db.Carts.InsertOnSubmit(cart_insert);
-                var cartItem = new CartItem();
+                db.SubmitChanges();
                 cartItem.BouquetiId = bouquetiId;
                 cartItem.CartId = cart_insert.CartId;
                 cartItem.TotalCount = 1;

@@ -41,7 +41,7 @@ namespace Java_Florist.Controllers
                             select new CartDTO { 
                                 CartId = a.CartId,
                                 Status = a.Status,
-                                StatusName = a.Status == 1 ? "New" : "Deleted",
+                                StatusName = a.Status == 1 ? "New" : "Place order",
                                 UserId = a.UserId,
                                 UserName = db.htUsers.Where(x => x.UserId == a.UserId).FirstOrDefault().UserName ?? "__",
                                 TotalItem = db.CartItems.Where(x => x.CartId == a.CartId).Count()

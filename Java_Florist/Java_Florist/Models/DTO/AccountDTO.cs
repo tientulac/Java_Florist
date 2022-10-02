@@ -9,5 +9,11 @@ namespace Java_Florist.Models.DTO
     {
         public string FunctionName { get; set; }
         public string StatusName { get; set; }
+        public string F_Name { get; set; }
+        public string L_Name { get; set; }
+        public DateTime Dob { get; set; }
+        public bool Gender { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
     }
 }

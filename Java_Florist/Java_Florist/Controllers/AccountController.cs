@@ -2,8 +2,12 @@
 using Java_Florist.Models.DTO;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Web;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading;
 using System.Web.Mvc;
 
 namespace Java_Florist.Controllers
@@ -11,6 +15,75 @@ namespace Java_Florist.Controllers
     public class AccountController : Controller
     {
         private LinqDataContext db = new LinqDataContext();
+
+        public static string GetMD5(string str)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] frData = Encoding.UTF8.GetBytes(str);
+            byte[] tgData = md5.ComputeHash(frData);
+            string hashString = "";
+            for (int i = 0; i < tgData.Length; i++)
+            {
+                hashString += tgData[i].ToString("x2");
+            }
+            return hashString;
+        }
+
+        [HttpPost]
+        public ActionResult Login(htUser req)
+        {
+            req.PassWord = GetMD5(req.PassWord);
+            try
+            {
+                var _user = db.htUsers.Where(x => x.UserName == req.UserName && x.PassWord == req.PassWord);
+                if (_user.Any())
+                {
+                    var token = createToken(_user.FirstOrDefault().UserName);
+                    return Json(new { success = true, data = _user.FirstOrDefault(), token = token }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, data = "", token = "" }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false, data = "", token = "" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult Register(AccountDTO req)
+        {
+            req.PassWord = GetMD5(req.PassWord);
+            req.Admin = false;
+            req.Active = true;
+            try
+            {
+                var _user = new htUser();
+                _user.UserName = req.UserName;
+                _user.PassWord = req.PassWord;
+                _user.Admin = req.Admin;
+                _user.Active = req.Active;
+                _user.FullName = req.F_Name + req.L_Name;
+                _user.Email = req.Email;
+                _user.UserCategory = 1;
+                db.htUsers.InsertOnSubmit(_user);
+                db.SubmitChanges();
+                var _customer = new Customer();
+                _customer.F_Name = req.F_Name;
+                _customer.L_Name = req.L_Name;
+                _customer.Dob = req.Dob;
+                _customer.Gender = req.Gender;
+                _customer.Phone = req.Phone;
+                _customer.Address = req.Address;
+                _customer.UserId = _user.UserId;
+                db.Customers.InsertOnSubmit(_customer);
+                db.SubmitChanges();
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, data = "", token = "" }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false, data = "", token = "" }, JsonRequestBehavior.AllowGet);
+        }
 
         // GET: Account
         public ActionResult Index()
@@ -70,6 +143,45 @@ namespace Java_Florist.Controllers
         {
             var _user = db.htUsers.Where(M => M.UserId == UserId).FirstOrDefault();
             return Json(new { success = true, data = _user }, JsonRequestBehavior.AllowGet);
+        }
+
+        public static string createToken(string Username)
+        {
+            //Set issued at date
+            DateTime issuedAt = DateTime.UtcNow;
+            //đặt thời gian hết hạn token
+            DateTime expires = DateTime.UtcNow.AddDays(10);
+
+            //http://stackoverflow.com/questions/18223868/how-to-encrypt-jwt-security-token
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            //create a identity and add claims to the user which we want to log in
+
+            var userIdentity = new ClaimsIdentity("Identity");
+            userIdentity.Label = "Identity";
+            userIdentity.AddClaim(new Claim(ClaimTypes.Name, Username));
+            userIdentity.AddClaim(new Claim("Username", Username));
+            //userIdentity.AddClaim(new Claim("Category", Category));
+            //userIdentity.HasClaim(ClaimTypes.Role, Category);
+            var claims = new List<Claim>();
+
+            var identity = new ClaimsPrincipal(userIdentity);
+            Thread.CurrentPrincipal = identity;
+            //string sec = EncryptCode;
+            string sec = "088881139703564148785";
+            //string sec = "401b09eab3c013d4ca54922bb802bec8fd5318192b0a75f201d8b3727429090fb337591abd3e44453b954555b7a0812e1081c39b740293f765eae731f5a65ed1" + Category;
+            var now = DateTime.UtcNow;
+            var securityKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(System.Text.Encoding.Default.GetBytes(sec));
+            var signingCredentials = new Microsoft.IdentityModel.Tokens.SigningCredentials(securityKey, Microsoft.IdentityModel.Tokens.SecurityAlgorithms.HmacSha256Signature);
+
+            //create the jwt
+            var token =
+                (JwtSecurityToken)
+                    tokenHandler.CreateJwtSecurityToken(issuer: "http://unisoft.edu.vn/", audience: "http://unisoft.edu.vn/",
+                        subject: userIdentity, notBefore: issuedAt, expires: expires, signingCredentials: signingCredentials);
+            var tokenString = tokenHandler.WriteToken(token);
+
+            return tokenString;
         }
     }
 }

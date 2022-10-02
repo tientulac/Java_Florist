@@ -58,7 +58,7 @@
 
                                                     }
                                                     <td>
-                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#detailModal" style="margin-right: 5px;" onclick="openDetailModal(@f.UserId)">
+                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#detailModal" style="margin-right: 5px;" onclick="openDetailModal(@f.CartId,@f.UserId, @f.Status)">
                                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                                         </button>
                                                         <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal(@f.CartId)" data-toggle="modal" data-target="#deleteModal">
@@ -156,19 +156,19 @@
         });
     }
 
-    openDetailModal = (cart_id) => {
+    openDetailModal = (cart_id, user_id, status) => {
         $.ajax({
-            url: '/CartItem/GetCartItem?userId=' + cart_id,
+            url: '/CartItem/GetCartItemAdmin?cartId=' + cart_id + '&userId=' + user_id + '&status=' + status,
             type: 'GET',
             success: function (result) {
-                var str = '';
                 if (count < result.data.length) {
                     if (result) {
-                        result.data.forEach(x => {
-                            str = str + returnCartItem(x);
-                            count++;
+                        var _html = '';
+                        result.data.forEach(data => {
+                            var str = '<div class="card mb-3"> <div class="card-body"> <div class="d-flex justify-content-between"> <div class="d-flex flex-row align-items-center"> <div> <img src="' + data.Image + '" class="img-fluid rounded-3" alt="item" style="width: 65px;"> </div> <div class="col-md-7"> <h5 style="margin-left: 5px">' + data.BouquetiName + '</h5> <p style="margin-left: 5px" class="small mb-0">' + data.Desc + '</p> </div> </div> <div class="d-flex flex-row align-items-center"> <div style="width: 50px;"> <h5 class="fw-normal mb-0">' + data.TotalCount+'</h5> </div> <div style="width: 80px;"> <h5 class="mb-0">$' + data.Price + '</h5> </div> </div> </div> </div> <div class="col-md-12" style="font-style: italic; font-weight: bold; color: deeppink; margin-bottom: 10px;">' + data.Message + '</div></div>';
+                            _html += str;
                         })
-                        $("#displayCartItem").append(str);
+                        $("#displayCartItem").html(_html);
                     }
                     else {
                         toastr.warning('Failed !');
@@ -179,7 +179,7 @@
     }
 
     returnCartItem = (data) => {
-        var html = '<div class="card mb-3"> <div class="card-body"> <div class="d-flex justify-content-between"> <div class="d-flex flex-row align-items-center"> <div> <img src="' + data.Image + '" class="img-fluid rounded-3" alt="item" style="width: 65px;"> </div> <div class="ms-3"> <h5 style="margin-left: 5px">' + data.BouquetiName + '</h5> <p style="margin-left: 5px" class="small mb-0">256GB, Navy Blue</p> </div> </div> <div class="d-flex flex-row align-items-center"> <div style="width: 50px;"> <h5 class="fw-normal mb-0">1</h5> </div> <div style="width: 80px;"> <h5 class="mb-0">$' + data.Price + '</h5> </div> </div> </div> </div> <div class="col-md-12" style="font-style: italic; font-weight: bold; color: deeppink; margin-bottom: 10px;">'+data.Message+'</div></div>';
+        var html = '';
         return html;
     }
 </script>

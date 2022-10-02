@@ -68,8 +68,8 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#gallery">
-                                                <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                                            <a href="#gallery" data-toggle="modal" data-target="#orderModal" onclick="openOrderInfo()">
+                                                <i class="fa fa-shopping-bag" aria-hidden="true"></i> <span style="color:red" id="countOrder"></span>
                                             </a>
                                         </li>
                                         <li id="userIcon" style="display: none">
@@ -431,9 +431,30 @@
         <script src="../Content/greeno/js/owl.carousel.js"></script>
         <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
         <script>
+
+            async function postData(url = '', data = {}) {
+                // Default options are marked with *
+                const response = await fetch(url, {
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, *cors, same-origin
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, *same-origin, omit
+                    headers: {
+                        'Content-Type': 'application/json'
+                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    redirect: 'follow', // manual, *follow, error
+                    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                    body: JSON.stringify(data) // body data type must match "Content-Type" header
+                });
+                return response.json(); // parses JSON response into native JavaScript objects
+            }
+
             var check = false;
             var count_cart = 0;
             var user_id = 0;
+            var listMessageBouqueti = [];
+            var dataCartItem = [];
 
             getCountCart = () => {
                 $.ajax({
@@ -442,6 +463,24 @@
                     success: function (result) {
                         if (result) {
                             $('#countCart').html('(' + result + ')');
+                            $('#cartItemCount').html('You have ' + result + ' items in your cart');
+                        }
+                        else {
+                            toastr.warning('Failed !');
+                            $('.modal').modal('hide');
+                        }
+                    }
+                });
+            }
+
+            getCountOrder = () => {
+                $.ajax({
+                    url: '../Orders/GetCountOrder?userId=' + user_id,
+                    type: 'GET',
+                    success: function (result) {
+                        if (result) {
+                            $('#countOrder').html('(' + result + ')');
+                            $('#orderItemCount').html('You have ' + result + ' items in your order');
                         }
                         else {
                             toastr.warning('Failed !');
@@ -452,6 +491,8 @@
             }
 
             $(document).ready(function () {
+                $('#selectMessage').hide();
+
                 $(".fancybox").fancybox({
                     openEffect: "none",
                     closeEffect: "none"
@@ -472,25 +513,41 @@
                     $('#userIcon').show();
                     $('#accountInfo').append('<i class="fa-solid fa-user"></i> ' + info.UserName);
                     getCountCart();
+                    getCountOrder();
                 }
             });
 
             login = () => {
-                var userInfo = {
-                    UserId: 2,
-                    Admin: true,
-                    UserName: 'admin'
-                };
-
-                toastr.success('Login successfully !');
-                $('.modal').modal('hide');
-                localStorage.setItem("UserInfo", JSON.stringify(userInfo));
-
-                if (localStorage.getItem("UserInfo") && !check) {
-                    var info = JSON.parse(localStorage.getItem("UserInfo"));
-                    $('#userIcon').show();
-                    $('#accountInfo').html('<i class="fa-solid fa-user"></i> ' + info.UserName)
+                var reqUser = {
+                    UserName: $('#username').val(),
+                    PassWord: $('#password').val(),
                 }
+                postData('../Account/Login', reqUser)
+                    .then((data) => {
+                        if (data.success) {
+                            var userInfo = {
+                                UserId: data.data.UserId,
+                                Admin: data.data.Admin,
+                                UserName: data.data.UserName,
+                                Token: data.token
+                            };
+                            console.log(userInfo);
+                            $('.modal').modal('hide');
+                            localStorage.setItem("UserInfo", JSON.stringify(userInfo));
+
+                            if (localStorage.getItem("UserInfo") && !check) {
+                                var info = JSON.parse(localStorage.getItem("UserInfo"));
+                                $('#userIcon').show();
+                                $('#accountInfo').html('<i class="fa-solid fa-user"></i> ' + info.UserName)
+                            }
+                            $('.modal').modal('hide');
+                            window.location.reload();
+                        }
+                        else {
+                            toastr.warning('Wrong password or username !');
+                            $('.modal').modal('hide');
+                        }
+                    });                
             }
 
             logout = () => {
@@ -527,44 +584,47 @@
                     $('.infoCart').hide();
                 }
                 else {
+                    listMessageBouqueti = [];
                     $.ajax({
                         url: '../CartItem/GetCartItem?userId=' + user_id,
                         type: 'GET',
                         success: function (result) {
-                            if (result.data.length > 0) {
-                                console.log(result);
+                            if (result) {
+                                dataCartItem = result.data;
+                                console.log(dataCartItem);
+                                listMessageBouqueti = [];
                                 var _html = '';
                                 result.data.forEach(x => {
                                     var str = `<div class="card mb-3">
-                                                                <div class="card-body">
-                                                                    <div class="d-flex justify-content-between">
-                                                                        <div class="d-flex flex-row align-items-center">
-                                                                            <div>
-                                                                                <img src="`+ x.Image + `"
-                                                                                        class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                                                                            </div>
-                                                                            <div class="ms-3">
-                                                                                <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
-                                                                                <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
-                                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="d-flex flex-row align-items-center">
+                                                                        <div>
+                                                                            <img src="`+ x.Image + `"
+                                                                                    class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
                                                                         </div>
-                                                                        <div class="d-flex flex-row align-items-center">
-                                                                            <div style="width: 50px;">
-                                                                                <h5 class="fw-normal mb-0">`+ x.TotalCount + `</h5>
-                                                                            </div>
-                                                                            <div style="width: 80px;">
-                                                                                <h5 class="mb-0">$ `+ x.Price + `</h5>
-                                                                            </div>
-                                                                            <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
+                                                                        <div class="col-md-10">
+                                                                            <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
+                                                                            <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="d-flex flex-row align-items-center">
+                                                                        <div style="width: 50px;">
+                                                                            <h5 class="fw-normal mb-0">`+ x.TotalCount + `</h5>
+                                                                        </div>
+                                                                        <div style="width: 80px;">
+                                                                            <h5 class="mb-0">$ `+ x.Price + `</h5>
+                                                                        </div>
+                                                                        <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="card-body">
-                                                                    <input type="text" class="form-control" id="messge-`+ x.BouquetiId +`" value="" placeholder="Input your message wanto send"/>
-                                                                </div>
-                                                            </div>`;
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" placeholder="Input your message wanto send"/>
+                                                            </div>
+                                                        </div>`;
                                     _html += str;
-                                    totalPrice = totalPrice + (parseInt(x.Price) * parseInt(x.TotalCount));
+                                    totalPrice = totalPrice + (parseInt(x.Price) * parseInt(x.TotalCount));                                 
                                 })
                                 $('#displayCartItem').html(_html);
                                 $('#totalPricePay').html(totalPrice + 20);
@@ -581,6 +641,48 @@
                 }
             }
 
+
+            openOrderInfo = () => {
+                $.ajax({
+                    url: '../Orders/GetByUserId?userId=' + user_id,
+                    type: 'GET',
+                    success: function (result) {
+                        if (result) {
+                            console.log(result);
+                            var _html = '';
+                            result.data.forEach(x => {
+                                var str = `<div class="card mb-3">
+                                                            <div class="card-body">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="d-flex flex-row align-items-center">
+                                                                        <div class="col-md-5">
+                                                                            <p class="small mb-0">`+ x.TimeDelivery + `</p>
+                                                                        </div>
+                                                                        <div class="col-md-10">
+                                                                            <h6 style="margin-left: 10px;">From: `+ x.Address_From + `--- To: ` + x.Address_To +`</h6>
+                                                                            <p style="margin-left: 10px;" class="small mb-0">`+ x.StatusName + `</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex flex-row align-items-center">
+                                                                        <div style="width: 80px;">
+                                                                            <h5 class="mb-0">$ `+ x.ToTal + `</h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>`;
+                                _html += str;
+                            })
+                            $('#table_order').html(_html);
+                        }
+                        else {
+                            toastr.warning('Failed !');
+                            $('.modal').modal('hide');
+                        }
+                    }
+                })
+            }
+
             deleteCartItem = (id) => {
                 var totalPrice = 0;
                 $.ajax({
@@ -588,49 +690,53 @@
                     type: 'GET',
                     success: function (result) {
                         if (result) {
+                            dataCartItem = result.data;
+                            listMessageBouqueti = [];
                             $.ajax({
                                 url: '../CartItem/GetCartItem?userId=' + user_id,
                                 type: 'GET',
                                 success: function (result) {
-                                    if (result.data.length > 0) {
+                                    if (result) {
                                         console.log(result);
                                         var _html = '';
                                         result.data.forEach(x => {
                                             var str = `<div class="card mb-3">
-                                                                <div class="card-body">
-                                                                    <div class="d-flex justify-content-between">
-                                                                        <div class="d-flex flex-row align-items-center">
-                                                                            <div>
-                                                                                <img src="`+ x.Image + `"
-                                                                                        class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                                                                            </div>
-                                                                            <div class="ms-3">
-                                                                                <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
-                                                                                <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
-                                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="d-flex flex-row align-items-center">
+                                                                        <div>
+                                                                            <img src="`+ x.Image + `"
+                                                                                    class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
                                                                         </div>
-                                                                        <div class="d-flex flex-row align-items-center">
-                                                                            <div style="width: 50px;">
-                                                                                <h5 class="fw-normal mb-0">`+ x.TotalCount + `</h5>
-                                                                            </div>
-                                                                            <div style="width: 80px;">
-                                                                                <h5 class="mb-0">$ `+ x.Price + `</h5>
-                                                                            </div>
-                                                                            <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
+                                                                        <div class="col-md-10">
+                                                                            <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
+                                                                            <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="d-flex flex-row align-items-center">
+                                                                        <div style="width: 50px;">
+                                                                            <h5 class="fw-normal mb-0">`+ x.TotalCount + `</h5>
+                                                                        </div>
+                                                                        <div style="width: 80px;">
+                                                                            <h5 class="mb-0">$ `+ x.Price + `</h5>
+                                                                        </div>
+                                                                        <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
+                                                                    </div>
                                                                 </div>
-                                                                <input type="text" class="form-control" id="messge-`+ x.BouquetiId +`" value="" />
-                                                            </div>`;
+                                                            </div>
+                                                            <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" />
+                                                        </div>`;
                                             _html += str;
                                             totalPrice = totalPrice + (parseInt(x.Price) * parseInt(x.TotalCount));
                                         })
                                         $('#displayCartItem').html(_html);
                                         $('#totalPricePay').html(totalPrice + 20);
                                         $('#subTotal').html(totalPrice);
+                                        getCountCart();
                                     }
                                     else {
                                         $('.modal').modal('hide');
+                                        getCountCart()
                                     }
                                 }
                             });
@@ -643,18 +749,51 @@
             }
 
             placeOrder = () => {
+                listMessageBouqueti = [];
+                dataCartItem.forEach(x => {
+                    var item = {
+                        CartOrderId: x.CartId,
+                        CartItemId: x.CartItemId,
+                        BouquetiId: x.BouquetiId,
+                        Message1: $('#message-' + x.BouquetiId).val()
+                    }
+                    listMessageBouqueti.push(item);
+                })
+                var checkPay = $('#checkPaymentType').is(':checked');
+                var type = checkPay ? 1 : 2
                 var req = {
                     UserId: user_id,
                     Status: 1,
-                    Address_From: '',
-                    Address_To: '',
-                    TypePayment: '',
-                    TimeDelivery: ''
+                    Address_From: $('#address_from').val(),
+                    Address_To: $('#address_to').val(),
+                    TypePayment: type,
+                    TimeDelivery: (new Date()).toString(),
+                    ListMessageCartItem: listMessageBouqueti
                 }
+
+                postData('../Orders/CreateOrder', req)
+                    .then((data) => {
+                        if (data.success) {
+                            toastr.success('Successfully !');
+                            $('.modal').modal('hide');
+                        }
+                        else {
+                            toastr.warning('Failed !');
+                            $('.modal').modal('hide');
+                        }
+                    });
+                console.log(listMessageBouqueti);
+                getCountOrder();
             }
 
             checkPayment = () => {
-                alert($('#checkPaymentType').val())
+                var checkPay = $('#checkPaymentType').is(':checked');
+                if (checkPay) {
+                    $('#paymentDisplay').css('display', 'none');
+                }
+                else {
+                    $('#paymentDisplay').css('display', 'block');
+                }
             }
         </script>
 </body>
@@ -680,7 +819,7 @@
                         </div>
                         <div class="col-md-12">
                             <label for="inputEmail4">Password</label>
-                            <input type="text" id="password" placeholder="Password" class="form-control" value="" />
+                            <input type="password" id="password" placeholder="Password" class="form-control" value="" />
                         </div>
                     </div>
                 </div>
@@ -694,7 +833,7 @@
 </div>
 
 
-<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+@*<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -727,7 +866,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 <div class="modal fade" id="changePassModal" tabindex="-1" role="dialog" aria-labelledby="changePassModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -792,7 +931,25 @@
                                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                                         <div>
                                                             <p class="mb-1">Shopping cart</p>
-                                                            <p class="mb-0">You have 4 items in your cart</p>
+                                                            <p class="mb-0" id="cartItemCount">You have 4 items in your cart</p>
+                                                            <div class="row" style="margin-top: 10px;">
+                                                                <div class="col-md-6">
+                                                                    <input type="text" id="address_from" value="" class="form-control" placeholder="Address From" />
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" id="address_to" value="" class="form-control" placeholder="Address To" />
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <select class="form-select form-control" aria-label="Default select example" id="selectMessage">
+                                                                        <option selected>Choose message template</option>
+                                                                        @foreach (var f in @ViewBag.ListMessage)
+                                                                        {
+                                                                            <option value="@f.OccasionId">@f.Message1</option>
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <p class="mb-1" style="font-weight: 600">Time delivery: 5 hours from moment you place order</p>
                                                         </div>
                                                         <div>
                                                             <p class="mb-0">
@@ -877,14 +1034,6 @@
                                                                 <p class="mb-2">Total(Incl. taxes)</p>
                                                                 <p class="mb-2" id="totalPricePay"></p>
                                                             </div>
-
-                                                            <button type="button" class="btn btn-info btn-block btn-lg">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <p class="mb-2" id="totalPricePay"></p>
-                                                                    <span>Place Order <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
-                                                                </div>
-                                                            </button>
-
                                                         </div>
                                                     </div>
 
@@ -905,6 +1054,25 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="infoCart btn btn-primary" onclick="placeOrder()">PlaceOrder</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal=lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderModal">List Orders</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="table_order"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

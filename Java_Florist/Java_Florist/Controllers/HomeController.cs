@@ -21,7 +21,9 @@ namespace Java_Florist.Controllers
         public ActionResult UserLayout()
         {
             var listBouquetis = db.Bouquetis.ToList();
+            var listMessage = db.Messages.ToList();
             ViewBag.ListBouqueti = listBouquetis;
+            ViewBag.ListMessage = listMessage;
             return View();
         }
     }
