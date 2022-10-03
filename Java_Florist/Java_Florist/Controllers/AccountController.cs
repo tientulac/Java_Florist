@@ -49,23 +49,32 @@ namespace Java_Florist.Controllers
             return Json(new { success = false, data = "", token = "" }, JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpPost]
         public ActionResult Register(AccountDTO req)
         {
             req.PassWord = GetMD5(req.PassWord);
-            req.Admin = false;
-            req.Active = true;
             try
             {
-                var _user = new htUser();
-                _user.UserName = req.UserName;
-                _user.PassWord = req.PassWord;
-                _user.Admin = req.Admin;
-                _user.Active = req.Active;
-                _user.FullName = req.F_Name + req.L_Name;
-                _user.Email = req.Email;
-                _user.UserCategory = 1;
-                db.htUsers.InsertOnSubmit(_user);
+                var _user = db.htUsers.Where(x => x.UserName == req.UserName);
+                var _userEmail = db.htUsers.Where(x => x.Email == req.Email);
+                if (_user.Any())
+                {
+                    return Json(new { success = false, data = "The user name was exist !" }, JsonRequestBehavior.AllowGet);
+                }
+                if (_userEmail.Any())
+                {
+                    return Json(new { success = false, data = "The email was exist !" }, JsonRequestBehavior.AllowGet);
+                }
+                var _userInsert = new htUser();
+                _userInsert.UserName = req.UserName;
+                _userInsert.Email = req.Email;
+                _userInsert.PassWord = req.PassWord;
+                _userInsert.Admin = false;
+                _userInsert.Active = true;
+                _userInsert.FullName = req.F_Name + ' ' + req.L_Name;
+
+                db.htUsers.InsertOnSubmit(_userInsert);
                 db.SubmitChanges();
                 var _customer = new Customer();
                 _customer.F_Name = req.F_Name;
@@ -74,16 +83,88 @@ namespace Java_Florist.Controllers
                 _customer.Gender = req.Gender;
                 _customer.Phone = req.Phone;
                 _customer.Address = req.Address;
-                _customer.UserId = _user.UserId;
+                _customer.UserId = _userInsert.UserId;
                 db.Customers.InsertOnSubmit(_customer);
                 db.SubmitChanges();
+
+                return Json(new { success = true, data = "Register successfully !"}, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, data = "", token = "" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = false, data = ex.Message}, JsonRequestBehavior.AllowGet);
             }
-            return Json(new { success = false, data = "", token = "" }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult ChangePass(AccountDTO req)
+        {
+            req.NewPassword = GetMD5(req.NewPassword);
+            req.OldPassword = GetMD5(req.OldPassword);
+            try
+            {
+                var _user = db.htUsers.Where(x => x.UserName == req.UserName && x.Email == req.Email && x.PassWord == req.OldPassword && x.Email == req.Email);
+                var _userEmail = db.htUsers.Where(x => x.Email == req.Email);
+                var _userPassword = db.htUsers.Where(x => x.PassWord == req.OldPassword);
+                if (!_userEmail.Any())
+                {
+                    return Json(new { success = false, data = "The email does not exist !" }, JsonRequestBehavior.AllowGet);
+                }
+
+                if (!_userPassword.Any())
+                {
+                    return Json(new { success = false, data = "The password does not match !" }, JsonRequestBehavior.AllowGet);
+                }
+
+                if (_user.Any())
+                {
+                    _user.FirstOrDefault().PassWord = req.NewPassword;
+                    db.SubmitChanges();
+                    return Json(new { success = true, data = "Successfully !" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, data = ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false, data = "ERROR !" }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //[HttpPost]
+        //public ActionResult Register(AccountDTO req)
+        //{
+        //    req.PassWord = GetMD5(req.PassWord);
+        //    req.Admin = false;
+        //    req.Active = true;
+        //    try
+        //    {
+        //        var _user = new htUser();
+        //        _user.UserName = req.UserName;
+        //        _user.PassWord = req.PassWord;
+        //        _user.Admin = req.Admin;
+        //        _user.Active = req.Active;
+        //        _user.FullName = req.F_Name + req.L_Name;
+        //        _user.Email = req.Email;
+        //        _user.UserCategory = 1;
+        //        db.htUsers.InsertOnSubmit(_user);
+        //        db.SubmitChanges();
+        //        var _customer = new Customer();
+        //        _customer.F_Name = req.F_Name;
+        //        _customer.L_Name = req.L_Name;
+        //        _customer.Dob = req.Dob;
+        //        _customer.Gender = req.Gender;
+        //        _customer.Phone = req.Phone;
+        //        _customer.Address = req.Address;
+        //        _customer.UserId = _user.UserId;
+        //        db.Customers.InsertOnSubmit(_customer);
+        //        db.SubmitChanges();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return Json(new { success = false, data = "", token = "" }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    return Json(new { success = false, data = "", token = "" }, JsonRequestBehavior.AllowGet);
+        //}
 
         // GET: Account
         public ActionResult Index()

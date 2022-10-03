@@ -75,7 +75,7 @@ namespace Java_Florist.Models
     #endregion
 		
 		public LinqDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["Java_FloristConnectionString1"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["Java_FloristConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -358,7 +358,7 @@ namespace Java_Florist.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Desc]", Storage="_Desc", DbType="NChar(4000)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Desc]", Storage="_Desc", DbType="NChar(200)")]
 		public string Desc
 		{
 			get
@@ -966,7 +966,7 @@ namespace Java_Florist.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Message", DbType="NChar(200)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Message", DbType="NVarChar(200)")]
 		public string Message
 		{
 			get

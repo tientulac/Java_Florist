@@ -9,7 +9,7 @@
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span>
-                            Hizrian
+                            <p style="margin: 0 0" id="name_acc_sidebar"></p>
                             <span class="user-level">Administrator</span>
                             <span class="caret"></span>
                         </span>
@@ -59,17 +59,17 @@
                     <div class="collapse" id="base">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="/Flower">
+                                <a href="/Flower/Index">
                                     <span class="sub-item">Flower</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/Message">
+                                <a href="/Message/Index">
                                     <span class="sub-item">Message</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/Bouqueti">
+                                <a href="/Bouqueti/Index">
                                     <span class="sub-item">Bouqueti</span>
                                 </a>
                             </li>
@@ -77,19 +77,19 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a href="/Cart">
+                    <a href="/Cart/Index">
                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                         <p>Cart</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/Orders">
+                    <a href="/Orders/Index">
                         <i class="fas fa-th-list"></i>
                         <p>Order</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/Customer">
+                    <a href="/Customer/Index">
                         <i class="fa fa-user-plus" aria-hidden="true"></i>
                         <p>Customer</p>
                     </a>
@@ -103,7 +103,7 @@
                     <div class="collapse" id="forms">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="/Account">
+                                <a href="/Account/Index">
                                     <span class="sub-item">Account</span>
                                 </a>
                             </li>
@@ -118,3 +118,10 @@
     </div>
 </div>
 <!-- End Sidebar -->
+
+<script>
+    $(document).ready(function () {
+        var info = JSON.parse(localStorage.getItem('UserInfo'));
+        $('#name_acc_sidebar').html(info.UserName);
+    });
+</script>

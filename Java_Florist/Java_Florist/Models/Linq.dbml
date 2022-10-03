@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Java_Florist" Class="LinqDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-8JPNURT;Initial Catalog=Java_Florist;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="Java_FloristConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=ADMIN-PC;Initial Catalog=Java_Florist;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="Java_FloristConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Bouqueti" Member="Bouquetis">
     <Type Name="Bouqueti">
       <Column Name="BouquetiId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -7,7 +7,7 @@
       <Column Name="Price" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
       <Column Name="Image" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="[Desc]" Member="Desc" Type="System.String" DbType="NChar(4000)" CanBeNull="true" />
+      <Column Name="[Desc]" Member="Desc" Type="System.String" DbType="NChar(200)" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Orders" Member="Orders">
@@ -42,7 +42,7 @@
       <Column Name="BouquetiId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="CartId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="TotalCount" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Message" Type="System.String" DbType="NChar(200)" CanBeNull="true" />
+      <Column Name="Message" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.CriteriaBouqueti" Member="CriteriaBouquetis">

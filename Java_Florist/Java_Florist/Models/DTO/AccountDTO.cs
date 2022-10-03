@@ -15,5 +15,7 @@ namespace Java_Florist.Models.DTO
         public bool Gender { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+        public string OldPassword { get; set; }
+        public string NewPassword { get; set; }
     }
 }

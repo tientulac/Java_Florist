@@ -82,10 +82,10 @@
                                                     <i class="fa fa-sign-in" aria-hidden="true"></i>
                                                 </a>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#loginModal" onclick="openLoginModal()">Login</a>
                                                     <a class="dropdown-item" href="#" data-toggle="modal" onclick="logout()">Logout</a>
-                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#registerModal">Register</a>
-                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#changePassModal">Change Pass</a>
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#registerModal" onclick="openRegisterModal()">Register</a>
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#changePassModal" onclick="openChangePassModal()">Change Pass</a>
                                                 </div>
                                             </div>
                                         </li>
@@ -455,6 +455,11 @@
             var user_id = 0;
             var listMessageBouqueti = [];
             var dataCartItem = [];
+            var gender = null;
+
+            checkGender = (_gender) => {
+                gender = _gender;
+            }
 
             getCountCart = () => {
                 $.ajax({
@@ -517,6 +522,31 @@
                 }
             });
 
+            openLoginModal = () => {
+                $('#username').val('');
+                $('#password').val('');
+            }
+
+            openRegisterModal = () => {
+                $('#f_name').val('');
+                $('#l_name').val('');
+                $('#dob').val('');
+                gender = null;
+                $('#phone').val('');
+                $('#address').val('');
+                $('#email_r').val('');
+                $('#username_r').val('');
+                $('#password_r').val('');
+            }
+
+            openChangePassModal = () => {
+                $('#email_cp').val('');
+                $('#username_cp').val('');
+                $('#oldpassword_cp').val('');
+                $('#oldpassword_cp').val('');
+                $('#password_cp').val('');
+            }
+
             login = () => {
                 var reqUser = {
                     UserName: $('#username').val(),
@@ -547,7 +577,53 @@
                             toastr.warning('Wrong password or username !');
                             $('.modal').modal('hide');
                         }
-                    });                
+                    });
+            }
+
+            register = () => {
+                var req = {
+                    F_Name: $('#f_name').val(),
+                    L_Name: $('#l_name').val(),
+                    Dob: $('#dob').val(),
+                    Gender: gender,
+                    Phone: $('#phone').val(),
+                    Address: $('#address').val(),
+                    Email: $('#email_r').val(),
+                    UserName: $('#username_r').val(),
+                    Password: $('#password_r').val()
+                }
+                postData('../Account/Register', req)
+                    .then((data) => {
+                        if (data.success) {
+                            toastr.success(data.data);
+                            $('.modal').modal('hide');
+                        }
+                        else {
+                            toastr.warning(data.data);
+                            $('.modal').modal('hide');
+                        }
+                    });
+            }
+
+            changePassword = () => {
+                var req = {
+                    UserName: $('#username_cp').val(),
+                    OldPassword: $('#oldpassword_cp').val(),
+                    Password: $('#oldpassword_cp').val(),
+                    NewPassword: $('#password_cp').val(),
+                    Email: $('#email_cp').val()
+                }
+                postData('../Account/ChangePass', req)
+                    .then((data) => {
+                        if (data.success) {
+                            toastr.success(data.data);
+                            $('.modal').modal('hide');
+                        }
+                        else {
+                            toastr.warning(data.data);
+                            $('.modal').modal('hide');
+                        }
+                    });
             }
 
             logout = () => {
@@ -591,40 +667,39 @@
                         success: function (result) {
                             if (result) {
                                 dataCartItem = result.data;
-                                console.log(dataCartItem);
                                 listMessageBouqueti = [];
                                 var _html = '';
                                 result.data.forEach(x => {
                                     var str = `<div class="card mb-3">
-                                                            <div class="card-body">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <div class="d-flex flex-row align-items-center">
-                                                                        <div>
-                                                                            <img src="`+ x.Image + `"
-                                                                                    class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                                                                        </div>
-                                                                        <div class="col-md-10">
-                                                                            <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
-                                                                            <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <div class="d-flex flex-row align-items-center">
+                                                                                <div>
+                                                                                    <img src="`+ x.Image + `"
+                                                                                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                                                                </div>
+                                                                                <div class="col-md-10">
+                                                                                    <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
+                                                                                    <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="d-flex flex-row align-items-center">
+                                                                                <div style="width: 50px;">
+                                                                                    <h5 class="fw-normal mb-0">`+ x.TotalCount + `</h5>
+                                                                                </div>
+                                                                                <div style="width: 80px;">
+                                                                                    <h5 class="mb-0">$ `+ x.Price + `</h5>
+                                                                                </div>
+                                                                                <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="d-flex flex-row align-items-center">
-                                                                        <div style="width: 50px;">
-                                                                            <h5 class="fw-normal mb-0">`+ x.TotalCount + `</h5>
-                                                                        </div>
-                                                                        <div style="width: 80px;">
-                                                                            <h5 class="mb-0">$ `+ x.Price + `</h5>
-                                                                        </div>
-                                                                        <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
+                                                                    <div class="card-body">
+                                                                        <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" placeholder="Input your message wanto send"/>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" placeholder="Input your message wanto send"/>
-                                                            </div>
-                                                        </div>`;
+                                                                </div>`;
                                     _html += str;
-                                    totalPrice = totalPrice + (parseInt(x.Price) * parseInt(x.TotalCount));                                 
+                                    totalPrice = totalPrice + (parseInt(x.Price) * parseInt(x.TotalCount));
                                 })
                                 $('#displayCartItem').html(_html);
                                 $('#totalPricePay').html(totalPrice + 20);
@@ -652,25 +727,25 @@
                             var _html = '';
                             result.data.forEach(x => {
                                 var str = `<div class="card mb-3">
-                                                            <div class="card-body">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <div class="d-flex flex-row align-items-center">
-                                                                        <div class="col-md-5">
-                                                                            <p class="small mb-0">`+ x.TimeDelivery + `</p>
-                                                                        </div>
-                                                                        <div class="col-md-10">
-                                                                            <h6 style="margin-left: 10px;">From: `+ x.Address_From + `--- To: ` + x.Address_To +`</h6>
-                                                                            <p style="margin-left: 10px;" class="small mb-0">`+ x.StatusName + `</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="d-flex flex-row align-items-center">
-                                                                        <div style="width: 80px;">
-                                                                            <h5 class="mb-0">$ `+ x.ToTal + `</h5>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>`;
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex flex-row align-items-center">
+                                                        <div class="col-md-5">
+                                                            <p class="small mb-0">`+ x.TimeDelivery + `</p>
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            <h6 style="margin-left: 10px;">From: `+ x.Address_From + `--- To: ` + x.Address_To + `</h6>
+                                                            <p style="margin-left: 10px;" class="small mb-0">`+ x.StatusName + `</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-row align-items-center">
+                                                        <div style="width: 80px;">
+                                                            <h5 class="mb-0">$ `+ x.ToTal + `</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>`;
                                 _html += str;
                             })
                             $('#table_order').html(_html);
@@ -701,31 +776,31 @@
                                         var _html = '';
                                         result.data.forEach(x => {
                                             var str = `<div class="card mb-3">
-                                                            <div class="card-body">
-                                                                <div class="d-flex justify-content-between">
-                                                                    <div class="d-flex flex-row align-items-center">
-                                                                        <div>
-                                                                            <img src="`+ x.Image + `"
-                                                                                    class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                                                                        </div>
-                                                                        <div class="col-md-10">
-                                                                            <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
-                                                                            <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <div class="d-flex flex-row align-items-center">
+                                                                                <div>
+                                                                                    <img src="`+ x.Image + `"
+                                                                                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                                                                </div>
+                                                                                <div class="col-md-10">
+                                                                                    <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
+                                                                                    <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="d-flex flex-row align-items-center">
+                                                                                <div style="width: 50px;">
+                                                                                    <h5 class="fw-normal mb-0">`+ x.TotalCount + `</h5>
+                                                                                </div>
+                                                                                <div style="width: 80px;">
+                                                                                    <h5 class="mb-0">$ `+ x.Price + `</h5>
+                                                                                </div>
+                                                                                <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="d-flex flex-row align-items-center">
-                                                                        <div style="width: 50px;">
-                                                                            <h5 class="fw-normal mb-0">`+ x.TotalCount + `</h5>
-                                                                        </div>
-                                                                        <div style="width: 80px;">
-                                                                            <h5 class="mb-0">$ `+ x.Price + `</h5>
-                                                                        </div>
-                                                                        <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" />
-                                                        </div>`;
+                                                                    <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" />
+                                                                </div>`;
                                             _html += str;
                                             totalPrice = totalPrice + (parseInt(x.Price) * parseInt(x.TotalCount));
                                         })
@@ -748,6 +823,23 @@
                 });
             }
 
+            var formatDate = (month, day, year, hour, minute) => {
+                month = month + 1;
+                if (month < 10) {
+                    month = '0' + month;
+                }
+                if (day < 10) {
+                    day = '0' + day;
+                }
+                if (hour < 10) {
+                    hour = '0' + hour;
+                }
+                if (minute < 10) {
+                    minute = '0' + minute;
+                }
+                return `${month}/${day}/${year} ${hour}:${minute}`;
+            }
+
             placeOrder = () => {
                 listMessageBouqueti = [];
                 dataCartItem.forEach(x => {
@@ -758,7 +850,22 @@
                         Message1: $('#message-' + x.BouquetiId).val()
                     }
                     listMessageBouqueti.push(item);
-                })
+                });
+
+                var now = new Date();
+                var d = new Date();
+                var startShipping = formatDate(now.getMonth(), now.getDate(), now.getFullYear(), 9, 0);
+                var endShipping = formatDate(now.getMonth(), now.getDate(), now.getFullYear(), 21, 0);
+                var deliveryTime = new Date(now.setHours(now.getHours() + 5));
+                var timeShipping = '';
+
+                if (new Date(startShipping) <= d && new Date(endShipping) >= d) {
+                    timeShipping = `Item will be delivered in 5 hours from: ${formatDate(d.getMonth(), d.getDate(), d.getFullYear(), d.getHours(), d.getMinutes())}  to: ${formatDate(deliveryTime.getMonth(), deliveryTime.getDate(), deliveryTime.getFullYear(), deliveryTime.getHours(), deliveryTime.getMinutes())}`;
+                }
+                else {
+                    timeShipping = `You placed your order at ${formatDate(d.getMonth(), d.getDate(), d.getFullYear(), d.getHours(), d.getMinutes())}. Sorry outside of our regular hours. We will deliver again tomorrow from 9am - 9pm. Please follow the journey. ^ ^!`;
+                }
+
                 var checkPay = $('#checkPaymentType').is(':checked');
                 var type = checkPay ? 1 : 2
                 var req = {
@@ -767,7 +874,7 @@
                     Address_From: $('#address_from').val(),
                     Address_To: $('#address_to').val(),
                     TypePayment: type,
-                    TimeDelivery: (new Date()).toString(),
+                    TimeDelivery: timeShipping,
                     ListMessageCartItem: listMessageBouqueti
                 }
 
@@ -782,8 +889,9 @@
                             $('.modal').modal('hide');
                         }
                     });
-                console.log(listMessageBouqueti);
+                $('#countCart').html('(' + 0 + ')');
                 getCountOrder();
+                window.location.reload();
             }
 
             checkPayment = () => {
@@ -833,7 +941,7 @@
 </div>
 
 
-@*<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -845,17 +953,48 @@
             <div class="modal-body">
                 <div class="col-md-12">
                     <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="inputEmail4">F_Name</label>
+                            <input type="text" class="form-control" id="f_name" placeholder="First Name">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputEmail4">L_Name</label>
+                            <input type="text" class="form-control" id="l_name" placeholder="Last Name">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail4">Date of birth</label>
+                            <input type="date" class="form-control" id="dob">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="inputEmail4">Phone</label>
+                            <input type="tel" class="form-control" id="phone" placeholder="Phone">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputEmail4">Address</label>
+                            <input type="text" class="form-control" id="address" placeholder="Address">
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="male" value="option1" onclick="checkGender(false)">
+                                <label class="form-check-label" for="inlineRadio1">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="female" value="option2" onclick="checkGender(true)">
+                                <label class="form-check-label" for="inlineRadio2">Female</label>
+                            </div>
+                        </div>
+
                         <div class="col-md-12">
                             <label for="inputEmail4">Email</label>
-                            <input type="text" id="email" placeholder="Email" class="form-control" value="" />
+                            <input type="text" id="email_r" placeholder="Email" class="form-control" value="" />
                         </div>
                         <div class="col-md-12">
                             <label for="inputEmail4">User Name</label>
-                            <input type="text" id="username" placeholder="User Name" class="form-control" value="" />
+                            <input type="text" id="username_r" placeholder="User Name" class="form-control" value="" />
                         </div>
                         <div class="col-md-12">
                             <label for="inputEmail4">Password</label>
-                            <input type="text" id="password" placeholder="Password" class="form-control" value="" />
+                            <input type="password" id="password_r" placeholder="Password" class="form-control" value="" />
                         </div>
                     </div>
                 </div>
@@ -866,7 +1005,7 @@
             </div>
         </div>
     </div>
-</div>*@
+</div>
 
 <div class="modal fade" id="changePassModal" tabindex="-1" role="dialog" aria-labelledby="changePassModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -882,19 +1021,19 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="inputEmail4">Email</label>
-                            <input type="text" id="email" placeholder="Email" class="form-control" value="" />
+                            <input type="text" id="email_cp" placeholder="Email" class="form-control" value="" />
                         </div>
                         <div class="col-md-12">
                             <label for="inputEmail4">User Name</label>
-                            <input type="text" id="username" placeholder="User Name" class="form-control" value="" />
+                            <input type="text" id="username_cp" placeholder="User Name" class="form-control" value="" />
                         </div>
                         <div class="col-md-12">
                             <label for="inputEmail4">Old Passowrd</label>
-                            <input type="text" id="password" placeholder="Password" class="form-control" value="" />
+                            <input type="password" id="oldpassword_cp" placeholder="Password" class="form-control" value="" />
                         </div>
                         <div class="col-md-12">
                             <label for="inputEmail4">New Password</label>
-                            <input type="text" id="password_confirm" placeholder="Confirm Password" class="form-control" value="" />
+                            <input type="password" id="password_cp" placeholder="Confirm Password" class="form-control" value="" />
                         </div>
                     </div>
                 </div>
