@@ -75,7 +75,7 @@ namespace Java_Florist.Models
     #endregion
 		
 		public LinqDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["Java_FloristConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["Java_FloristConnectionString1"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

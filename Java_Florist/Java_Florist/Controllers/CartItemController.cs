@@ -63,6 +63,18 @@ namespace Java_Florist.Controllers
             return Json(new { success = true, data = "" }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult UpdateCountCart(int cartItemId, int count)
+        {
+            var _cartItem = db.CartItems.Where(x => x.CartItemId == cartItemId);
+            if (_cartItem.Any())
+            {
+                _cartItem.FirstOrDefault().TotalCount = count;
+                db.SubmitChanges();
+                return Json(new { success = true, data = _cartItem.FirstOrDefault() }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false, data = "" }, JsonRequestBehavior.AllowGet);
+        }
+
         public int GetCountCart(int userId)
         {
             var countCart = 0;

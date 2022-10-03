@@ -47,13 +47,13 @@
                                             @foreach (var f in @ViewBag.ListOrder)
                                             {
                                                 <tr>
-                                                    <td>@f.OrderId</td>
+                                                    <td>@f.Id</td>
                                                     <td>@f.CustomerName</td>
                                                     <td>@f.Address_From</td>
                                                     <td>@f.Address_To</td>
                                                     <td>@f.TypePaymentName</td>
                                                     <td>@f.ToTal $</td>
-                                                    <td>@f.TimeDelivery</td>
+                                                    <td style="max-width:800px;word-wrap:break-word">@f.TimeDelivery</td>
                                                     @if (f.Status == 1)
                                                     {
                                                         <td style="color: lawngreen">@f.StatusName</td>
@@ -70,9 +70,6 @@
 
                                                     }
                                                     <td>
-                                                        <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#detailModal" style="margin-right: 5px;" onclick="openDetailModal(@f.OrderId)">
-                                                            <i class="fa fa-eye" aria-hidden="true"></i>
-                                                        </button>
                                                         <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal(@f.OrderId)" data-toggle="modal" data-target="#deleteModal">
                                                             <i class="fas fa-trash-alt"></i>
                                                         </button>

@@ -89,7 +89,6 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li class="last"><a href="#"><img src="../Content/greeno/images/search_icon.png" alt="icon" /></a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -163,7 +162,7 @@
             <div class="row">
                 <div class="col-md-12 ">
                     <div class="titlepage">
-                        <h2>Our Wonderful plants</h2>
+                        <h2>Our Wonderful Bouqueti</h2>
                         <span>looking at its layout. The point of using Lorem Ipsumletters, as opposed to usingl</span>
                     </div>
                 </div>
@@ -174,12 +173,11 @@
                 @foreach (var f in @ViewBag.ListBouqueti)
                 {
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
-                        <div class="plants-box">
-                            <figure><img src="@f.Image" alt="img" /></figure>
-                            <h3>@f.BouquetiName</h3>
-                            <p>@f.Desc</p>
-                            <p style="font-weight: 600; margin: 0 0">Delivery in 2h</p>
-                            <p style="font-weight: 600; margin: 0 0">BouquetiId: BQT- @f.BouquetiId</p>
+                        <div class="plants-box" style="border-radius: 35px;">
+                            <figure><img src="@f.Image" alt="img" style="border-top-left-radius: 35px; border-top-right-radius: 35px; "/></figure>
+                            <h3 style="font-weight: bold; font-family: cursive; font-style: italic; color: #d15757;">@f.BouquetiName</h3>
+                            <p style="font-style: italic">@f.Desc</p>
+                            <p style="font-weight: 600; margin: 0 0; color: #396799">Delivery in 5h</p>
                             <p>
                                 <button type="button" class="btn btn-outline-primary">@f.Price $</button>
                                 <button type="button" class="btn btn-outline-primary" onclick="addToCart(@f.BouquetiId)">Add To Cart +</button>
@@ -671,33 +669,34 @@
                                 var _html = '';
                                 result.data.forEach(x => {
                                     var str = `<div class="card mb-3">
-                                                                    <div class="card-body">
-                                                                        <div class="d-flex justify-content-between">
-                                                                            <div class="d-flex flex-row align-items-center">
-                                                                                <div>
-                                                                                    <img src="`+ x.Image + `"
-                                                                                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                                                                                </div>
-                                                                                <div class="col-md-10">
-                                                                                    <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
-                                                                                    <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="d-flex flex-row align-items-center">
-                                                                                <div style="width: 50px;">
-                                                                                    <h5 class="fw-normal mb-0">`+ x.TotalCount + `</h5>
-                                                                                </div>
-                                                                                <div style="width: 80px;">
-                                                                                    <h5 class="mb-0">$ `+ x.Price + `</h5>
-                                                                                </div>
-                                                                                <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="card-body">
-                                                                        <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" placeholder="Input your message wanto send"/>
-                                                                    </div>
-                                                                </div>`;
+                                                    <div class="card-body">
+                                                        <div class="d-flex justify-content-between">
+                                                            <div class="d-flex flex-row align-items-center">
+                                                                <div>
+                                                                    <img src="`+ x.Image + `"
+                                                                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                                                </div>
+                                                                <div class="col-md-10">
+                                                                    <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
+                                                                    <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="d-flex flex-row align-items-center">
+                                                                <div style="width: 85px;">
+                                                                    <input style="width: 60px;" id="count_${x.CartItemId}" type="number" value="${x.TotalCount}" min="1"/>
+                                                                </div>
+                                                                <div style="width: 80px;">
+                                                                    <h5 class="mb-0">$ `+ x.Price + `</h5>
+                                                                </div>
+                                                                <a href="#!" style="color:#308409;;margin-right:20px;font-size:25px;font-weight:bold" onclick="updateCountCart(${x.CartItemId}, '#count_${x.CartItemId}')"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                                <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" placeholder="Input your message wanto send"/>
+                                                    </div>
+                                                </div>`;
                                     _html += str;
                                     totalPrice = totalPrice + (parseInt(x.Price) * parseInt(x.TotalCount));
                                 })
@@ -716,6 +715,41 @@
                 }
             }
 
+            updateCountCart = (cartItemId, id_count) => {
+                var count_update = $(id_count).val();
+                var totalPrice = 0;
+                $.ajax({
+                    url: '../CartItem/UpdateCountCart?cartItemId=' + cartItemId + '&count=' + count_update,
+                    type: 'GET',
+                    success: function (result) {
+                        if (result) {
+                            toastr.success('Update count successfully !');
+                            getCountCart();
+                            $.ajax({
+                                url: '../CartItem/GetCartItem?userId=' + user_id,
+                                type: 'GET',
+                                success: function (result) {
+                                    if (result) {
+                                        result.data.forEach(x => {
+                                            totalPrice = totalPrice + (parseInt(x.Price) * parseInt(x.TotalCount));
+                                        })
+                                        $('#totalPricePay').html(totalPrice + 20);
+                                        $('#subTotal').html(totalPrice);
+                                    }
+                                    else {
+                                        toastr.warning('Failed !');
+                                        $('.modal').modal('hide');
+                                    }
+                                }
+                            });
+                        }
+                        else {
+                            toastr.warning('Failed !');
+                            $('.modal').modal('hide');
+                        }
+                    }
+                });
+            }
 
             openOrderInfo = () => {
                 $.ajax({
@@ -734,7 +768,8 @@
                                                             <p class="small mb-0">`+ x.TimeDelivery + `</p>
                                                         </div>
                                                         <div class="col-md-10">
-                                                            <h6 style="margin-left: 10px;">From: `+ x.Address_From + `--- To: ` + x.Address_To + `</h6>
+                                                            <h6 style="margin-left: 10px;">From: `+ x.Address_From +`</h6>
+                                                            <h6 style="margin-left: 10px;">To: `+ x.Address_To +`</h6>
                                                             <p style="margin-left: 10px;" class="small mb-0">`+ x.StatusName + `</p>
                                                         </div>
                                                     </div>
