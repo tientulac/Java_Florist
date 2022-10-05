@@ -18,8 +18,8 @@ Circles.create({
 //Notify
 $.notify({
 	icon: 'flaticon-alarm-1',
-	title: 'Atlantis',
-	message: 'Premium Bootstrap 4 Admin Dashboard',
+	title: 'JavaFlorist Shop',
+	message: 'Have a nice day ^^',
 },{
 	type: 'secondary',
 	placement: {

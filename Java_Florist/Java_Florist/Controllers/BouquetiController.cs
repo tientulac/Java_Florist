@@ -21,6 +21,8 @@ namespace Java_Florist.Controllers
                 _bouqueti.Price = req.Price;
                 _bouqueti.Image = req.Image;
                 _bouqueti.Status = req.Status;
+                _bouqueti.Desc = req.Desc;
+
                 db.SubmitChanges();
                 return Json(new { success = true, data = _bouqueti }, JsonRequestBehavior.AllowGet);
             }

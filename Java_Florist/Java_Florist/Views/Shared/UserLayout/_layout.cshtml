@@ -174,7 +174,7 @@
                 {
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                         <div class="plants-box" style="border-radius: 35px;">
-                            <figure><img src="@f.Image" alt="img" style="border-top-left-radius: 35px; border-top-right-radius: 35px; "/></figure>
+                            <figure><img src="@f.Image" alt="img" style="border-top-left-radius: 35px; border-top-right-radius: 35px; height: 400px"/></figure>
                             <h3 style="font-weight: bold; font-family: cursive; font-style: italic; color: #d15757;">@f.BouquetiName</h3>
                             <p style="font-style: italic">@f.Desc</p>
                             <p style="font-weight: 600; margin: 0 0; color: #396799">Delivery in 5h</p>
@@ -916,8 +916,10 @@
                 postData('../Orders/CreateOrder', req)
                     .then((data) => {
                         if (data.success) {
-                            toastr.success('Successfully !');
+                            toastr.success('Your place order is successfully !');
                             $('.modal').modal('hide');
+                            $('#countCart').html('(' + 0 + ')');
+                            getCountOrder();
                         }
                         else {
                             toastr.warning('Failed !');
@@ -926,7 +928,6 @@
                     });
                 $('#countCart').html('(' + 0 + ')');
                 getCountOrder();
-                window.location.reload();
             }
 
             checkPayment = () => {
