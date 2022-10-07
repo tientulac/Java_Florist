@@ -86,16 +86,19 @@
                     <form>
                         <div class="form-row">
                             <div class="form-group col-md-12">
-                                <label for="inputEmail4">Name</label>
+                                <label class="required"  for="inputEmail4">Name</label>
                                 <input type="text" class="form-control" id="name" placeholder="Name of flower">
+                                <p class="error" id="name_validate" style="display: none"></p>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="inputEmail4">Color</label>
+                                <label class="required"  for="inputEmail4">Color</label>
                                 <input type="text" class="form-control" id="color" placeholder="Color">
+                                <p class="error" id="color_validate" style="display: none"></p>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="inputEmail4">Image</label>
+                                <label class="required"  for="inputEmail4">Image</label>
                                 <input type="text" class="form-control" id="image" placeholder="Paste your image address in here">
+                                <p class="error" id="image_validate" style="display: none"></p>
                             </div>
                         </div>
                     </form>
@@ -170,6 +173,14 @@
             FlowerName: $('#name').val(),
             Color: $('#color').val(),
             Image: $('#image').val(),
+        }
+
+        validateForm('name');
+        validateForm('color');
+        validateForm('image');
+
+        if (!$('#name').val() || !$('#color').val() || !$('#image').val()) {
+            return false;
         }
         postData('/Flower/Save', req)
             .then((data) => {

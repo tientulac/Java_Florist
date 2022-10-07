@@ -93,32 +93,37 @@
                     <form>
                         <div class="form-row">
                             <div class="form-group col-md-12">
-                                <label for="inputEmail4">F_Name</label>
+                                <label class="required"  for="inputEmail4">F_Name</label>
                                 <input type="text" class="form-control" id="f_name" placeholder="First Name">
+                                <p class="error" id="f_name_validate" style="display: none"></p>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="inputEmail4">L_Name</label>
+                                <label class="required"  for="inputEmail4">L_Name</label>
                                 <input type="text" class="form-control" id="l_name" placeholder="Last Name">
+                                <p class="error" id="l_name_validate" style="display: none"></p>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputEmail4">Date of birth</label>
+                                <label class="required"  for="inputEmail4">Date of birth</label>
                                 <input type="date" class="form-control" id="dob">
+                                <p class="error" id="dob_validate" style="display: none"></p>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputEmail4">Phone</label>
+                                <label class="required"  for="inputEmail4">Phone</label>
                                 <input type="tel" class="form-control" id="phone" placeholder="Phone">
+                                <p class="error" id="phone_validate" style="display: none"></p>
                             </div>
                             <div class="form-group col-md-12">
-                                <label for="inputEmail4">Address</label>
+                                <label class="required"  for="inputEmail4">Address</label>
                                 <input type="text" class="form-control" id="address" placeholder="Address">
+                                <p class="error" id="address_validate" style="display: none"></p>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="male" value="option1" onclick="checkGender(false)">
-                                <label class="form-check-label" for="inlineRadio1">Male</label>
+                                <label class="required"  class="form-check-label" for="inlineRadio1">Male</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="female" value="option2"  onclick="checkGender(true)">
-                                <label class="form-check-label" for="inlineRadio2">Female</label>
+                                <label class="required"  class="form-check-label" for="inlineRadio2">Female</label>
                             </div>
                         </div>
                     </form>
@@ -194,6 +199,16 @@
             Gender: gender,
             Phone: $('#phone').val(),
             Address: $('#address').val(),
+        }
+
+        validateForm('f_name');
+        validateForm('l_name');
+        validateForm('dob');
+        validateForm('phone');
+        validateForm('address');
+
+        if (!$('#f_name').val() || !$('#l_name').val() || !$('#dob').val() || !$('#phone').val() || !$('#address').val()) {
+            return false;
         }
         postData('/Customer/Save', req)
             .then((data) => {

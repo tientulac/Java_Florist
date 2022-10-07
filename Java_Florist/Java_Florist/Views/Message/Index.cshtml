@@ -84,8 +84,9 @@
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <div class="form-group">
-                                    <label for="exampleFormControlTextarea1">Message</label>
+                                    <label class="required"  for="exampleFormControlTextarea1">Message</label>
                                     <textarea class="form-control" id="message" rows="3"></textarea>
+                                    <p class="error" id="message_validate" style="display: none"></p>
                                 </div>
                             </div>
                         </div>
@@ -157,6 +158,12 @@
         var req = {
             OccasionId: id_record,
             Message1: $('#message').val()
+        }
+
+        validateForm('message');
+
+        if (!$('#message').val()) {
+            return false;
         }
         postData('/Message/Save', req)
             .then((data) => {
