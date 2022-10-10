@@ -39,11 +39,11 @@
     .error {
         color: red;
     }
+
     label.required:after {
         content: '*';
         color: red;
     }
-
 </style>
 <!-- body -->
 <body class="main-layout">
@@ -71,7 +71,7 @@
                                 <nav class="main-menu">
                                     <ul class="menu-area-main">
                                         <li> <a href="#about">About</a> </li>
-                                        <li><a href="#plant">Plant</a></li>
+                                        <li><a href="#plant">BOUTIQUE</a></li>
                                         <li><a href="#contact">Contact Us</a></li>
                                         <li>
                                             <a href="#gallery" data-toggle="modal" data-target="#cartModal" onclick="openCartInfo()">
@@ -124,7 +124,7 @@
                         <div class="row marginii">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="carousel-caption ">
-                                    <h1>Welcome To The <strong class="color">Nutrients Plants</strong></h1>
+                                    <h1>Welcome To The <br><strong class="color">JAVA FLORIST</strong></h1>
                                     <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
                                     <a class="btn btn-lg btn-secondary" href="#" role="button">About</a>
                                     <a class="btn btn-lg btn-secondary" href="#" role="button">Contact US</a>
@@ -139,25 +139,29 @@
                     </div>
                 </div>
                 @*SLIDER*@
-                <div class="carousel-item">
-                    <div class="container">
-                        <div class="row marginii">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                <div class="carousel-caption ">
-                                    <h1>Welcome To The <strong class="color">Nutrients Plants</strong></h1>
-                                    <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
-                                    <a class="btn btn-lg btn-secondary" href="#" role="button">About</a>
-                                    <a class="btn btn-lg btn-secondary" href="#" role="button">Contact US</a>
+                @foreach (var f in ViewBag.ListFlower)
+                {
+                    <div class="carousel-item">
+                        <div class="container">
+                            <div class="row marginii">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="carousel-caption ">
+                                        <h1>Welcome To The <strong class="color">JAVA FLORIST</strong></h1>
+                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using</p>
+                                        <a class="btn btn-lg btn-secondary" href="#" role="button">About</a>
+                                        <a class="btn btn-lg btn-secondary" href="#" role="button">Contact US</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                <div class="img-box ">
-                                    <figure><img src="../Content/greeno/images/gyufyufyu.png" alt="img" /></figure>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="img-box ">
+                                        <figure><img width="540px" height="540px" style="border-radius: 50%" src="@f.Image" alt="img" /></figure>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
+
             </div>
             <a class="carousel-control-prev" href="#main_slider" role="button" data-slide="prev">
                 <i class='fa fa-angle-left'></i>
@@ -185,7 +189,7 @@
                 {
                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                         <div class="plants-box" style="border-radius: 35px;">
-                            <figure><img src="@f.Image" alt="img" style="border-top-left-radius: 35px; border-top-right-radius: 35px; height: 400px"/></figure>
+                            <figure><img src="@f.Image" alt="img" style="border-top-left-radius: 35px; border-top-right-radius: 35px; height: 400px" /></figure>
                             <h3 style="font-weight: bold; font-family: cursive; font-style: italic; color: #d15757;">@f.BouquetiName</h3>
                             <p style="font-style: italic">@f.Desc</p>
                             <p style="font-weight: 600; margin: 0 0; color: #396799">Delivery in 5h</p>
@@ -712,34 +716,34 @@
                                 var _html = '';
                                 result.data.forEach(x => {
                                     var str = `<div class="card mb-3">
-                                                    <div class="card-body">
-                                                        <div class="d-flex justify-content-between">
-                                                            <div class="d-flex flex-row align-items-center">
-                                                                <div>
-                                                                    <img src="`+ x.Image + `"
-                                                                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                                                                </div>
-                                                                <div class="col-md-10">
-                                                                    <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
-                                                                    <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="d-flex flex-row align-items-center">
-                                                                <div style="width: 85px;">
-                                                                    <input style="width: 60px;" id="count_${x.CartItemId}" type="number" value="${x.TotalCount}" min="1"/>
-                                                                </div>
-                                                                <div style="width: 80px;">
-                                                                    <h5 class="mb-0">$ `+ x.Price + `</h5>
-                                                                </div>
-                                                                <a href="#!" style="color:#308409;;margin-right:20px;font-size:25px;font-weight:bold" onclick="updateCountCart(${x.CartItemId}, '#count_${x.CartItemId}')"><i class="fa fa-check" aria-hidden="true"></i></a>
-                                                                <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" placeholder="Input your message wanto send"/>
-                                                    </div>
-                                                </div>`;
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <div class="d-flex flex-row align-items-center">
+                                                                                <div>
+                                                                                    <img src="`+ x.Image + `"
+                                                                                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                                                                </div>
+                                                                                <div class="col-md-10">
+                                                                                    <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
+                                                                                    <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="d-flex flex-row align-items-center">
+                                                                                <div style="width: 85px;">
+                                                                                    <input style="width: 60px;" id="count_${x.CartItemId}" type="number" value="${x.TotalCount}" min="1"/>
+                                                                                </div>
+                                                                                <div style="width: 80px;">
+                                                                                    <h5 class="mb-0">$ `+ x.Price + `</h5>
+                                                                                </div>
+                                                                                <a href="#!" style="color:#308409;;margin-right:20px;font-size:25px;font-weight:bold" onclick="updateCountCart(${x.CartItemId}, '#count_${x.CartItemId}')"><i class="fa fa-check" aria-hidden="true"></i></a>
+                                                                                <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="card-body">
+                                                                        <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" placeholder="Input your message wanto send"/>
+                                                                    </div>
+                                                                </div>`;
                                     _html += str;
                                     totalPrice = totalPrice + (parseInt(x.Price) * parseInt(x.TotalCount));
                                 })
@@ -804,26 +808,26 @@
                             var _html = '';
                             result.data.forEach(x => {
                                 var str = `<div class="card mb-3">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="d-flex flex-row align-items-center">
-                                                        <div class="col-md-5">
-                                                            <p class="small mb-0">`+ x.TimeDelivery + `</p>
-                                                        </div>
-                                                        <div class="col-md-10">
-                                                            <h6 style="margin-left: 10px;">From: `+ x.Address_From +`</h6>
-                                                            <h6 style="margin-left: 10px;">To: `+ x.Address_To +`</h6>
-                                                            <p style="margin-left: 10px;" class="small mb-0">`+ x.StatusName + `</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex flex-row align-items-center">
-                                                        <div style="width: 80px;">
-                                                            <h5 class="mb-0">$ `+ x.ToTal + `</h5>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>`;
+                                                            <div class="card-body">
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="d-flex flex-row align-items-center">
+                                                                        <div class="col-md-5">
+                                                                            <p class="small mb-0">`+ x.TimeDelivery + `</p>
+                                                                        </div>
+                                                                        <div class="col-md-10">
+                                                                            <h6 style="margin-left: 10px;">From: `+ x.Address_From + `</h6>
+                                                                            <h6 style="margin-left: 10px;">To: `+ x.Address_To + `</h6>
+                                                                            <p style="margin-left: 10px;" class="small mb-0">`+ x.StatusName + `</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex flex-row align-items-center">
+                                                                        <div style="width: 80px;">
+                                                                            <h5 class="mb-0">$ `+ x.ToTal + `</h5>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>`;
                                 _html += str;
                             })
                             $('#table_order').html(_html);
@@ -854,31 +858,31 @@
                                         var _html = '';
                                         result.data.forEach(x => {
                                             var str = `<div class="card mb-3">
-                                                                    <div class="card-body">
-                                                                        <div class="d-flex justify-content-between">
-                                                                            <div class="d-flex flex-row align-items-center">
-                                                                                <div>
-                                                                                    <img src="`+ x.Image + `"
-                                                                                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                                                                                </div>
-                                                                                <div class="col-md-10">
-                                                                                    <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
-                                                                                    <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="d-flex flex-row align-items-center">
-                                                                                <div style="width: 50px;">
-                                                                                    <h5 class="fw-normal mb-0">`+ x.TotalCount + `</h5>
-                                                                                </div>
-                                                                                <div style="width: 80px;">
-                                                                                    <h5 class="mb-0">$ `+ x.Price + `</h5>
-                                                                                </div>
-                                                                                <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" />
-                                                                </div>`;
+                                                                                    <div class="card-body">
+                                                                                        <div class="d-flex justify-content-between">
+                                                                                            <div class="d-flex flex-row align-items-center">
+                                                                                                <div>
+                                                                                                    <img src="`+ x.Image + `"
+                                                                                                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+                                                                                                </div>
+                                                                                                <div class="col-md-10">
+                                                                                                    <h5 style="margin-left: 10px;">`+ x.BouquetiName + `</h5>
+                                                                                                    <p style="margin-left: 10px;" class="small mb-0">`+ x.Desc + `</p>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="d-flex flex-row align-items-center">
+                                                                                                <div style="width: 50px;">
+                                                                                                    <h5 class="fw-normal mb-0">`+ x.TotalCount + `</h5>
+                                                                                                </div>
+                                                                                                <div style="width: 80px;">
+                                                                                                    <h5 class="mb-0">$ `+ x.Price + `</h5>
+                                                                                                </div>
+                                                                                                <a href="#!" style="color: #cecece;" onclick="deleteCartItem(`+ x.CartItemId + `)"><i class="fas fa-trash-alt"></i></a>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <input type="text" class="form-control" id="message-`+ x.BouquetiId + `" value="" />
+                                                                                </div>`;
                                             _html += str;
                                             totalPrice = totalPrice + (parseInt(x.Price) * parseInt(x.TotalCount));
                                         })
@@ -1001,12 +1005,12 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
-                            <label class="required"  for="inputEmail4">User Name</label>
+                            <label class="required" for="inputEmail4">User Name</label>
                             <input type="text" id="username" placeholder="User Name" class="form-control" value="" />
                             <p class="error" id="username_validate" style="display: none"></p>
                         </div>
                         <div class="col-md-12">
-                            <label class="required"  for="inputEmail4">Password</label>
+                            <label class="required" for="inputEmail4">Password</label>
                             <input type="password" id="password" placeholder="Password" class="form-control" value="" />
                             <p class="error" id="password_validate" style="display: none"></p>
                         </div>
@@ -1035,53 +1039,53 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <label class="required"  for="inputEmail4">F_Name</label>
+                            <label class="required" for="inputEmail4">F_Name</label>
                             <input type="text" class="form-control" id="f_name" placeholder="First Name">
                             <p class="error" id="f_name_validate" style="display: none"></p>
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="required"  for="inputEmail4">L_Name</label>
+                            <label class="required" for="inputEmail4">L_Name</label>
                             <input type="text" class="form-control" id="l_name" placeholder="Last Name">
                             <p class="error" id="l_name_validate" style="display: none"></p>
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="required"  for="inputEmail4">Date of birth</label>
+                            <label class="required" for="inputEmail4">Date of birth</label>
                             <input type="date" class="form-control" id="dob">
                             <p class="error" id="dob_validate" style="display: none"></p>
                         </div>
                         <div class="form-group col-md-6">
-                            <label class="required"  for="inputEmail4">Phone</label>
+                            <label class="required" for="inputEmail4">Phone</label>
                             <input type="tel" class="form-control" id="phone" placeholder="Phone">
                             <p class="error" id="phone_validate" style="display: none"></p>
                         </div>
                         <div class="form-group col-md-12">
-                            <label class="required"  for="inputEmail4">Address</label>
+                            <label class="required" for="inputEmail4">Address</label>
                             <input type="text" class="form-control" id="address" placeholder="Address">
                             <p class="error" id="address_validate" style="display: none"></p>
                         </div>
                         <div class="col-md-12">
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="male" value="option1" onclick="checkGender(false)">
-                                <label class="required"  class="form-check-label" for="inlineRadio1">Male</label>
+                                <label class="required" class="form-check-label" for="inlineRadio1">Male</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="female" value="option2" onclick="checkGender(true)">
-                                <label class="required"  class="form-check-label" for="inlineRadio2">Female</label>
+                                <label class="required" class="form-check-label" for="inlineRadio2">Female</label>
                             </div>
                         </div>
 
                         <div class="col-md-12">
-                            <label class="required"  for="inputEmail4">Email</label>
+                            <label class="required" for="inputEmail4">Email</label>
                             <input type="text" id="email_r" placeholder="Email" class="form-control" value="" />
                             <p class="error" id="email_r_validate" style="display: none"></p>
                         </div>
                         <div class="col-md-12">
-                            <label class="required"  for="inputEmail4">User Name</label>
+                            <label class="required" for="inputEmail4">User Name</label>
                             <input type="text" id="username_r" placeholder="User Name" class="form-control" value="" />
                             <p class="error" id="username_r_validate" style="display: none"></p>
                         </div>
                         <div class="col-md-12">
-                            <label class="required"  for="inputEmail4">Password</label>
+                            <label class="required" for="inputEmail4">Password</label>
                             <input type="password" id="password_r" placeholder="Password" class="form-control" value="" />
                             <p class="error" id="password_r_validate" style="display: none"></p>
                         </div>
@@ -1109,22 +1113,22 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-12">
-                            <label class="required"  for="inputEmail4">Email</label>
+                            <label class="required" for="inputEmail4">Email</label>
                             <input type="text" id="email_cp" placeholder="Email" class="form-control" value="" />
                             <p class="error" id="email_cp_validate" style="display: none"></p>
                         </div>
                         <div class="col-md-12">
-                            <label class="required"  for="inputEmail4">User Name</label>
+                            <label class="required" for="inputEmail4">User Name</label>
                             <input type="text" id="username_cp" placeholder="User Name" class="form-control" value="" />
                             <p class="error" id="username_cp_validate" style="display: none"></p>
                         </div>
                         <div class="col-md-12">
-                            <label class="required"  for="inputEmail4">Old Passowrd</label>
+                            <label class="required" for="inputEmail4">Old Passowrd</label>
                             <input type="password" id="oldpassword_cp" placeholder="Password" class="form-control" value="" />
                             <p class="error" id="oldpassword_cp_validate" style="display: none"></p>
                         </div>
                         <div class="col-md-12">
-                            <label class="required"  for="inputEmail4">New Password</label>
+                            <label class="required" for="inputEmail4">New Password</label>
                             <input type="password" id="password_cp" placeholder="Confirm Password" class="form-control" value="" />
                             <p class="error" id="password_cp_validate" style="display: none"></p>
                         </div>
@@ -1194,7 +1198,7 @@
                                                 <div class="col-lg-5">
                                                     <div class="form-check" style="margin: 10px 0">
                                                         <input style="width:20px; height: 20px" class="form-check-input" type="checkbox" onclick="checkPayment()" value="" id="checkPaymentType">
-                                                        <label class="required"  style="font-weight: bold; margin-left: 10px;" class="form-check-label" for="defaultCheck1">
+                                                        <label class="required" style="font-weight: bold; margin-left: 10px;" class="form-check-label" for="defaultCheck1">
                                                             Pay directly after receiving the goods
                                                         </label>
                                                     </div>
@@ -1222,13 +1226,13 @@
                                                                 <div class="form-outline form-white mb-4">
                                                                     <input type="text" id="typeName" class="form-control form-control-lg" siez="17"
                                                                            placeholder="Cardholder's Name" />
-                                                                    <label class="required"  class="form-label" for="typeName">Cardholder's Name</label>
+                                                                    <label class="required" class="form-label" for="typeName">Cardholder's Name</label>
                                                                 </div>
 
                                                                 <div class="form-outline form-white mb-4">
                                                                     <input type="text" id="typeText" class="form-control form-control-lg" siez="17"
                                                                            placeholder="1234 5678 9012 3457" minlength="19" maxlength="19" />
-                                                                    <label class="required"  class="form-label" for="typeText">Card Number</label>
+                                                                    <label class="required" class="form-label" for="typeText">Card Number</label>
                                                                 </div>
 
                                                                 <div class="row mb-4">
@@ -1236,14 +1240,14 @@
                                                                         <div class="form-outline form-white">
                                                                             <input type="text" id="typeExp" class="form-control form-control-lg"
                                                                                    placeholder="MM/YYYY" size="7" id="exp" minlength="7" maxlength="7" />
-                                                                            <label class="required"  class="form-label" for="typeExp">Expiration</label>
+                                                                            <label class="required" class="form-label" for="typeExp">Expiration</label>
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="form-outline form-white">
                                                                             <input type="password" id="typeText" class="form-control form-control-lg"
                                                                                    placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
-                                                                            <label class="required"  class="form-label" for="typeText">Cvv</label>
+                                                                            <label class="required" class="form-label" for="typeText">Cvv</label>
                                                                         </div>
                                                                     </div>
                                                                 </div>

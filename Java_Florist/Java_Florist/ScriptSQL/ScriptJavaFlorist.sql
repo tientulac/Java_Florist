@@ -6,49 +6,49 @@ GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[htUsers]') AND type in (N'U'))
 ALTER TABLE [dbo].[htUsers] DROP CONSTRAINT IF EXISTS [DF_htUsers_Admin]
 GO
-/****** Object:  Table [dbo].[Orders]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Orders]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[Orders]
 GO
-/****** Object:  Table [dbo].[Message]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Message]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[Message]
 GO
-/****** Object:  Table [dbo].[htUsers]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[htUsers]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[htUsers]
 GO
-/****** Object:  Table [dbo].[htUserFunction]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[htUserFunction]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[htUserFunction]
 GO
-/****** Object:  Table [dbo].[htFunctions]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[htFunctions]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[htFunctions]
 GO
-/****** Object:  Table [dbo].[FlowerBouqueti]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[FlowerBouqueti]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[FlowerBouqueti]
 GO
-/****** Object:  Table [dbo].[Flower]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Flower]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[Flower]
 GO
-/****** Object:  Table [dbo].[DescBouqueti]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[DescBouqueti]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[DescBouqueti]
 GO
-/****** Object:  Table [dbo].[Customer]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Customer]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[Customer]
 GO
-/****** Object:  Table [dbo].[CriteriaBouqueti]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[CriteriaBouqueti]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[CriteriaBouqueti]
 GO
-/****** Object:  Table [dbo].[CartItem]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[CartItem]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[CartItem]
 GO
-/****** Object:  Table [dbo].[Cart]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Cart]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[Cart]
 GO
-/****** Object:  Table [dbo].[BouquetiMessage]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[BouquetiMessage]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[BouquetiMessage]
 GO
-/****** Object:  Table [dbo].[Bouqueti]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Bouqueti]    Script Date: 10/10/2022 5:02:19 PM ******/
 DROP TABLE IF EXISTS [dbo].[Bouqueti]
 GO
-/****** Object:  Table [dbo].[Bouqueti]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Bouqueti]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -66,7 +66,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[BouquetiMessage]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[BouquetiMessage]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -81,7 +81,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Cart]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Cart]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -96,7 +96,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CartItem]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[CartItem]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -113,7 +113,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CriteriaBouqueti]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[CriteriaBouqueti]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -128,7 +128,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Customer]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Customer]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -148,7 +148,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[DescBouqueti]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[DescBouqueti]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -163,7 +163,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Flower]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Flower]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -179,7 +179,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[FlowerBouqueti]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[FlowerBouqueti]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -194,7 +194,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[htFunctions]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[htFunctions]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -209,7 +209,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[htUserFunction]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[htUserFunction]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -224,7 +224,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[htUsers]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[htUsers]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -244,7 +244,7 @@ CREATE TABLE [dbo].[htUsers](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Message]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Message]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -258,7 +258,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orders]    Script Date: 10/5/2022 3:59:03 PM ******/
+/****** Object:  Table [dbo].[Orders]    Script Date: 10/10/2022 5:02:19 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -302,6 +302,8 @@ INSERT [dbo].[Cart] ([CartId], [Status], [UserId]) VALUES (2, 2, 1)
 GO
 INSERT [dbo].[Cart] ([CartId], [Status], [UserId]) VALUES (3, 1, 1)
 GO
+INSERT [dbo].[Cart] ([CartId], [Status], [UserId]) VALUES (4, 1, 2)
+GO
 SET IDENTITY_INSERT [dbo].[Cart] OFF
 GO
 SET IDENTITY_INSERT [dbo].[CartItem] ON 
@@ -316,6 +318,12 @@ INSERT [dbo].[CartItem] ([CartItemId], [BouquetiId], [CartId], [TotalCount], [Me
 GO
 INSERT [dbo].[CartItem] ([CartItemId], [BouquetiId], [CartId], [TotalCount], [Message]) VALUES (5, 5, 3, 1, NULL)
 GO
+INSERT [dbo].[CartItem] ([CartItemId], [BouquetiId], [CartId], [TotalCount], [Message]) VALUES (6, 1, 4, 20, NULL)
+GO
+INSERT [dbo].[CartItem] ([CartItemId], [BouquetiId], [CartId], [TotalCount], [Message]) VALUES (7, 2, 4, 1, NULL)
+GO
+INSERT [dbo].[CartItem] ([CartItemId], [BouquetiId], [CartId], [TotalCount], [Message]) VALUES (8, 3, 4, 1, NULL)
+GO
 SET IDENTITY_INSERT [dbo].[CartItem] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Customer] ON 
@@ -326,7 +334,17 @@ SET IDENTITY_INSERT [dbo].[Customer] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Flower] ON 
 GO
-INSERT [dbo].[Flower] ([FlowerId], [FlowerName], [Color], [Image]) VALUES (1, N'Rose', N'Pink', N'https://cdn.tgdd.vn/Files/2021/01/19/1321035/hieu-ro-y-nghia-hoa-hong-giup-ban-chinh-phuc-nang--8-489x367.jpg')
+INSERT [dbo].[Flower] ([FlowerId], [FlowerName], [Color], [Image]) VALUES (1, N'Rose', N'Yellow', N'../Content/greeno/images/1.jpg')
+GO
+INSERT [dbo].[Flower] ([FlowerId], [FlowerName], [Color], [Image]) VALUES (2, N'Flower1', N'Pink', N'../Content/greeno/images/2.jpg')
+GO
+INSERT [dbo].[Flower] ([FlowerId], [FlowerName], [Color], [Image]) VALUES (3, N'Flower2', N'Pink', N'../Content/greeno/images/3.jpg')
+GO
+INSERT [dbo].[Flower] ([FlowerId], [FlowerName], [Color], [Image]) VALUES (4, N'Flower3', N'Green', N'https://localhost:44359/Content/greeno/images/4.jpg')
+GO
+INSERT [dbo].[Flower] ([FlowerId], [FlowerName], [Color], [Image]) VALUES (5, N'Flower4', N'Orange', N'../Content/greeno/images/5.jpg')
+GO
+INSERT [dbo].[Flower] ([FlowerId], [FlowerName], [Color], [Image]) VALUES (6, N'Flower5', N'Yellow', N'../Content/greeno/images/6.jpg')
 GO
 SET IDENTITY_INSERT [dbo].[Flower] OFF
 GO
