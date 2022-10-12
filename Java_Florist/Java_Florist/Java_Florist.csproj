@@ -759,6 +759,7 @@
       <DependentUpon>Linq.dbml</DependentUpon>
     </None>
     <Content Include="Report\Java_Florist Project.docx" />
+    <Content Include="Report\Documation_JavaFlorist.docx" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
